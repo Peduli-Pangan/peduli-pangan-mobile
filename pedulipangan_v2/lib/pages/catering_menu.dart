@@ -1,3 +1,4 @@
+import '../models/cart.dart';
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/menu.dart'; // Import model data dummy
@@ -17,6 +18,26 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
   final String _countdownText = "4d 15h 42m 28s";
   final String _locationText = "Chosen location";
   final String _locationDetail = "within 5 mi";
+
+  Widget _buildAddToCartButton(OrderableMeal meal, DateTime date) {
+    return IconButton(
+      icon: Icon(Icons.add_shopping_cart, color: AppColors.primaryGreen),
+      onPressed: () {
+        // Tambahkan item ke keranjang global
+        globalCart.addItem(meal, date);
+
+        // Tampilkan feedback ke pengguna
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${meal.description} ditambahkan ke keranjang.'),
+            duration: const Duration(seconds: 1),
+            backgroundColor: AppColors.primaryGreen,
+          ),
+        );
+        // Tidak perlu setState() di sini karena state cartPage akan di-rebuild saat diakses
+      },
+    );
+  }
 
   // --- Helper Widget: Item Menu Harian ---
   Widget _buildDailyMenuItem(DailyMenu menu) {
