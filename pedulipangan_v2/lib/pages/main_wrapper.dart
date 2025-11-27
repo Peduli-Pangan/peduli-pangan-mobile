@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedulipangan_v2/pages/cart_page.dart';
 import 'package:pedulipangan_v2/pages/catering_page.dart';
 import 'package:pedulipangan_v2/pages/home_page.dart';
 import 'package:pedulipangan_v2/theme.dart';
@@ -17,7 +18,7 @@ class _MainWrapperState extends State<MainWrapper> {
   final List<Widget> _pages = [
     const HomePage(),      // Halaman Home (Sesuai Desain)
     const CateringPage(), 
-    // const PlaceholderPage(title: 'Cart'),     
+    const CartPage(),
     // const PlaceholderPage(title: 'Account'),  
   ];
 
