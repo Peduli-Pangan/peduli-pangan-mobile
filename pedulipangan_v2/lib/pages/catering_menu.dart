@@ -11,8 +11,6 @@ class CateringMenuPage extends StatefulWidget {
 }
 
 class _CateringMenuPageState extends State<CateringMenuPage> {
-  // Data Countdown dan Batch (Disalin dari CateringPage, namun lebih baik
-  // data ini dilewatkan sebagai argument jika dari halaman sebelumnya)
   final String _batchInfo = "OPEN ORDER BATCH 30";
   final String _dateRange = "28 July 2025 - 3 August 2025";
   final String _countdownText = "4d 15h 42m 28s";
@@ -34,7 +32,6 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
             backgroundColor: AppColors.primaryGreen,
           ),
         );
-        // Tidak perlu setState() di sini karena state cartPage akan di-rebuild saat diakses
       },
     );
   }
@@ -72,13 +69,19 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Lunch :",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Lunch :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                          fontSize: 14,
+                        ),
+                      ),
+                      _buildAddToCartButton(menu.lunchOption!, menu.date),
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Text(
@@ -101,13 +104,20 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Dinner :",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Dinner :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                          fontSize: 14,
+                        ),
+                      ),
+                      // Tombol Add to Cart
+                      _buildAddToCartButton(menu.dinnerOption!, menu.date),
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Text(

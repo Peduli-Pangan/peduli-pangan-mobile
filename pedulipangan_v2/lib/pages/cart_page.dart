@@ -1,9 +1,10 @@
-// lib/pages/cart_page.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pedulipangan_v2/pages/catering_menu.dart';
+import 'package:pedulipangan_v2/pages/order_menu.dart';
 import '../theme.dart';
-import '../models/cart.dart'; // Import model keranjang
-import '../models/menu.dart'; // Import OrderableMeal
+import '../models/cart.dart';
+import '../models/menu.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -20,7 +21,6 @@ class _CartPageState extends State<CartPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Ganti dengan Image.asset('assets/images/empty_cart_icon.png')
-          // jika Anda memiliki aset gambar ikon keranjang.
           Icon(
             Icons.add_shopping_cart,
             size: 100,
@@ -41,12 +41,10 @@ class _CartPageState extends State<CartPage> {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
-                // Navigasi ke halaman CateringPage (Tab index 1 di MainWrapper)
-                // Ini memerlukan akses ke MainWrapperState, atau cara routing yang berbeda.
-                // Untuk saat ini, kita bisa menampilkan snackbar atau melakukan navigasi biasa.
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Silakan pesan menu di halaman Catering.'),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CateringMenuPage(),
                   ),
                 );
               },
@@ -218,6 +216,17 @@ class _CartPageState extends State<CartPage> {
                                   content: Text('Lanjut ke Pembayaran...'),
                                 ),
                               );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => OrderMenuPage(
+                                        preSelectedItems:
+                                            globalCart
+                                                .items, // Mengirim data items
+                                      ),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryGreen,
@@ -226,7 +235,10 @@ class _CartPageState extends State<CartPage> {
                                 vertical: 15,
                               ),
                             ),
-                            child: const Text("CHECKOUT"),
+                            child: const Text(
+                              "Checkout",
+                              style: TextStyle(color: AppColors.background),
+                            ),
                           ),
                         ],
                       ),
@@ -234,7 +246,6 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
       ),
-      // Bottom Nav Bar akan dihandle oleh MainWrapper
     );
   }
 }

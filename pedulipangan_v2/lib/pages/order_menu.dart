@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Untuk format tanggal
+import 'package:intl/intl.dart';
 import '../theme.dart';
-import '../models/menu.dart'; // Import model data dummy
+import '../models/menu.dart';
+import '../models/cart.dart';
 
 class OrderMenuPage extends StatefulWidget {
-  const OrderMenuPage({super.key});
+  final List<CartItems>? preSelectedItems;
+
+  const OrderMenuPage({super.key, this.preSelectedItems});
 
   @override
   State<OrderMenuPage> createState() => _OrderMenuPageState();
@@ -25,15 +28,62 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
   @override
   void initState() {
     super.initState();
-    // Inisialisasi menu default berdasarkan tanggal terpilih
-    _selectedDailyMenu = dummyMenuData.firstWhere(
+    _initializeData();
+  }
+
+  void _initializeData() {
+    // 1. Cek apakah ada data dari Keranjang?
+    if (widget.preSelectedItems != null &&
+        widget.preSelectedItems!.isNotEmpty) {
+      // Ambil tanggal dari item pertama di keranjang sebagai tanggal default tampilan
+      _selectedDate = widget.preSelectedItems!.first.date;
+    }
+
+    // 2. Cari Data Menu dari Database (unifiedDummyMenuData) yang cocok dengan tanggal
+    DailyMenu foundMenu = dummyMenuData.firstWhere(
       (menu) => menu.date.isAtSameMomentAs(_selectedDate),
       orElse:
           () => DailyMenu(
             date: _selectedDate,
-            dayName: DateFormat('dd MM yyyy').format(_selectedDate),
-          ), // Fallback jika tanggal tidak ditemukan
+            dayName: DateFormat('dd MMMM yyyy').format(_selectedDate),
+          ),
     );
+
+    // 3. Sinkronisasi status 'isSelected' berdasarkan data Keranjang
+    // Jika item ada di keranjang, tandai checkbox sebagai true (terpilih)
+    if (widget.preSelectedItems != null) {
+      // Cek Lunch
+      if (foundMenu.lunchOption != null) {
+        bool isLunchInCart = widget.preSelectedItems!.any(
+          (item) =>
+              item.meal.description == foundMenu.lunchOption!.description &&
+              item.date.isAtSameMomentAs(_selectedDate),
+        );
+        if (isLunchInCart) {
+          foundMenu = foundMenu.copyWith(
+            lunchOption: foundMenu.lunchOption!.copyWith(isSelected: true),
+          );
+        }
+      }
+
+      // Cek Dinner
+      if (foundMenu.dinnerOption != null) {
+        bool isDinnerInCart = widget.preSelectedItems!.any(
+          (item) =>
+              item.meal.description == foundMenu.dinnerOption!.description &&
+              item.date.isAtSameMomentAs(_selectedDate),
+        );
+        if (isDinnerInCart) {
+          foundMenu = foundMenu.copyWith(
+            dinnerOption: foundMenu.dinnerOption!.copyWith(isSelected: true),
+          );
+        }
+      }
+    }
+
+    setState(() {
+      _selectedDailyMenu = foundMenu;
+    });
   }
 
   // --- Logic: Date Picker ---
