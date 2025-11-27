@@ -260,7 +260,7 @@ class _CateringPageState extends State<CateringPage> {
                           ),
                         ),
                         child: const Text(
-                          "Lihat Menu Minggu Depan",
+                          "Lihat Menu Yang Tersedia",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
