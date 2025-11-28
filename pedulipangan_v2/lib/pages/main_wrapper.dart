@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/cart_page.dart';
 import 'package:pedulipangan_v2/pages/catering_page.dart';
 import 'package:pedulipangan_v2/pages/home_page.dart';
+import 'package:pedulipangan_v2/pages/profile_page.dart';
 import 'package:pedulipangan_v2/theme.dart';
 
 class MainWrapper extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MainWrapperState extends State<MainWrapper> {
     const HomePage(),      // Halaman Home (Sesuai Desain)
     const CateringPage(), 
     const CartPage(),
-    // const PlaceholderPage(title: 'Account'),  
+    ProfilePage(),
   ];
 
   @override
