@@ -15,12 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Peduli Pangan',
-      theme: ThemeData(
-        primaryColor: AppColors.primaryGreen,
-        scaffoldBackgroundColor: AppColors.background,
-        // Kita gunakan font default dulu, nanti bisa diganti Google Fonts (Poppins)
-        fontFamily: 'Inter',
-      ),
+      theme: appTheme,
       // Routing dimulai dari MainWrapper
       home: const MainWrapper(),
     );
