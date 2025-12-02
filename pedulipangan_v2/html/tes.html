@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset dasar untuk demo */
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        /* Container Utama Flash Sale */
+        .flash-sale-banner {
+            background-color: #E02424; /* Merah seperti di gambar */
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px 8px 0 0; /* Melengkung di atas jika ini bagian atas card */
+            width: 100%;
+            max-width: 480px; /* Simulasi lebar layar HP */
+            margin: 20px auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Bagian Kiri: Teks */
+        .fs-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fs-title {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .fs-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        /* Bagian Tengah: Timer */
+        .fs-timer {
+            background-color: white;
+            color: #E02424;
+            padding: 4px 12px;
+            border-radius: 20px; /* Bentuk kapsul */
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Ikon Jam kecil di timer */
+        .timer-icon {
+            font-size: 12px;
+        }
+
+        /* Bagian Kanan: Tombol */
+        .fs-button {
+            background-color: #E5F9E8; /* Hijau muda pudar */
+            color: #008f28; /* Hijau tua */
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 16px;
+            transition: opacity 0.2s;
+        }
+
+        .fs-button:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive: Agar rapi di layar sangat kecil */
+        @media (max-width: 380px) {
+            .flash-sale-banner {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+                text-align: center;
+            }
+            .fs-info { align-items: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flash-sale-banner">
+        
+        <div class="fs-info">
+            <div class="fs-title">
+                <span>⚡</span> Flash Sale
+            </div>
+            <div class="fs-subtitle">Diskon makan malam 35%.</div>
+        </div>
+
+        <div class="fs-timer">
+            <span class="timer-icon">🕒</span>
+            <span id="countdown">00 : 19 : 47</span>
+        </div>
+
+        <a href="#" class="fs-button">Cek semua</a>
+
+    </div>
+
+</body>
+</html>

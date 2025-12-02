@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Food Delivery Video Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #00880d;
+            --primary-red: #e02020;
+            --bg-color: #ffffff;
+            --text-dark: #1c1c1c;
+            --text-gray: #6e7679;
+            --border-color: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER (Fixed) --- */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            padding: 16px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .app-header.scrolled {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        .icon-box {
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .app-header.scrolled .icon-box {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Right icons slightly larger */
+        .icon-box.large {
+            width: 36px;
+            height: 36px;
+        }
+
+        .location-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .app-header.scrolled .location-pill {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* --- 1. TOP AD BANNER --- */
+        .top-ad-banner {
+            width: 100%;
+            height: 110px;
+            background-color: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+            /* Header is fixed over it */
+        }
+
+        .top-ad-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- 2. STICKY SEARCH BAR --- */
+        .sticky-search-wrapper {
+            position: sticky;
+            top: 70px;
+            /* Offset for fixed header */
+            z-index: 900;
+            background: white;
+            padding: 12px 16px;
+            transition: box-shadow 0.2s;
+        }
+
+        .sticky-search-wrapper.scrolled {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            /* Light gray bg like video */
+            border-radius: 30px;
+            padding: 10px 16px;
+            border: 1px solid #eee;
+        }
+
+        .search-icon {
+            color: #555;
+            font-size: 16px;
+            margin-right: 12px;
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+            outline: none;
+            color: #333;
+        }
+
+        .cutlery-icon {
+            color: var(--primary-red);
+            font-size: 16px;
+            margin-left: 12px;
+        }
+
+        /* --- 3. QUICK ACCESS ICONS (Horizontal) --- */
+        .quick-access-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding: 16px 16px 24px 16px;
+            /* Bottom padding for shadow */
+            gap: 16px;
+            scrollbar-width: none;
+        }
+
+        .quick-access-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .qa-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+            gap: 8px;
+        }
+
+        .qa-icon-box {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .qa-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #333;
+            color: white;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .qa-label {
+            font-size: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        /* Highlight specific text like video */
+        .text-bold {
+            font-weight: 800;
+        }
+
+        /* --- SECTION COMMONS --- */
+        .section-header {
+            padding: 0 16px 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .btn-see-all {
+            color: var(--primary-green);
+            background: #e6f7ed;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .h-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 0 16px 24px 16px;
+            scrollbar-width: none;
+        }
+
+        .h-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* --- 4. LANDSCAPE CARDS (Sambil kumpul...) --- */
+        .card-landscape {
+            min-width: 260px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f5f5f5;
+        }
+
+        .card-img-wrap {
+            position: relative;
+            height: 150px;
+            width: 100%;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-discount {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .rating-box {
+            background: #e6f7ed;
+            color: var(--primary-green);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        /* --- 5. PORTRAIT CARDS (Coba yang baru...) --- */
+        .card-portrait {
+            min-width: 140px;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .portrait-img-wrap {
+            height: 190px;
+            width: 100%;
+            position: relative;
+        }
+
+        .portrait-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portrait-rating {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: white;
+            color: #111;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .portrait-title {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111;
+            line-height: 1.3;
+        }
+
+        .portrait-sub {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* --- 6. FILTER CHIPS --- */
+        .filter-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 0 16px 16px 16px;
+            scrollbar-width: none;
+        }
+
+        .filter-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #333;
+            background: white;
+            white-space: nowrap;
+        }
+
+        .filter-chip-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background: white;
+            color: #333;
+        }
+
+        /* --- 7. BIG CARDS (Jajanan tengah malam / List) --- */
+        .card-big {
+            margin: 0 16px 16px 16px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .big-img-wrap {
+            height: 180px;
+            width: 100%;
+            position: relative;
+        }
+
+        .big-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .promo-strip {
+            background: #fff0f0;
+            color: var(--primary-red);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-top: 1px dashed #ffcccc;
+        }
+
+        /* --- 8. PROMO SLIDER --- */
+        .promo-slider {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .promo-banner-img {
+            width: 100%;
+            border-radius: 12px;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .dots-row {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #ddd;
+            border-radius: 50%;
+        }
+
+        .dot.active {
+            background: var(--primary-green);
+            width: 18px;
+            border-radius: 6px;
+        }
+
+        /* --- 9. COUPONS --- */
+        .coupon-card {
+            min-width: 280px;
+            background: linear-gradient(to right, #fff0f0 50%, #fff 50%);
+            border: 1px solid #ffcccc;
+            border-radius: 8px;
+            display: flex;
+            position: relative;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        /* Visual trick for "Coupon" look */
+        .coupon-left {
+            flex: 0 0 60px;
+            background: var(--primary-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .coupon-right {
+            flex: 1;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .coupon-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .coupon-desc {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* --- 10. CATEGORY GRID (Circles) --- */
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px 4px;
+            padding: 0 16px 24px 16px;
+        }
+
+        .cat-circle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cat-circle-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .cat-circle-text {
+            font-size: 11px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* --- FLOATING BOTTOM BANNER --- */
+        .floating-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 440px;
+            background: white;
+            border-radius: 50px;
+            /* Pill shape */
+            padding: 8px 8px 8px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+            border: 1px solid #eee;
+        }
+
+        .fb-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fb-icon {
+            font-size: 20px;
+            color: var(--primary-red);
+        }
+
+        .fb-texts h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .fb-texts p {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .fb-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Header / Nav (Top Overlay) -->
+        <div class="app-header" id="appHeader">
+            <!-- Left: Close & Location -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="icon-box">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="location-pill">
+                    <i class="fas fa-map-marker-alt" style="font-size: 12px; color: var(--primary-red);"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Jakarta Selatan</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                </div>
+            </div>
+
+            <!-- Right: Favorite & History -->
+            <div style="display: flex; gap: 8px;">
+                <div class="icon-box large">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="icon-box large">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. TOP AD BANNER (Slider) -->
+        <div class="top-ad-banner"
+            style="overflow-x: auto; display: flex; scroll-snap-type: x mandatory; scrollbar-width: none;">
+            <!-- Slide 1 -->
+            <div style="min-width: 100%; position: relative; scroll-snap-align: start;">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800&auto=format&fit=crop"
+                    class="top-ad-img" alt="Ad 1">
+                <div style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: white;">
+                    <div
+                        style="background: white; color: black; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-block;">
+                        WING STOP</div>
+                    <h2 style="font-size: 20px; font-weight: 800; margin-top: 4px;">PAYDAY DEAL 10 AYAM</h2>
+                    <div style="font-size: 18px; font-weight: 700; color: yellow;">93,6rb <span
+                            style="text-decoration: line-through; color: white; font-size: 14px;">120rb</span></div>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div style="min-width: 100%; position: relative; scroll-snap-align: start;">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop"
+                    class="top-ad-img" alt="Ad 2">
+                <div style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: white;">
+                    <div
+                        style="background: var(--primary-red); color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-block;">
+                        PIZZA HUT</div>
+                    <h2 style="font-size: 20px; font-weight: 800; margin-top: 4px;">LIMO PIZZA 1 METER</h2>
+                    <div style="font-size: 18px; font-weight: 700; color: yellow;">250rb <span
+                            style="text-decoration: line-through; color: white; font-size: 14px;">300rb</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. STICKY SEARCH BAR -->
+        <div class="sticky-search-wrapper" id="stickySearch">
+            <div class="search-bar">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Lagi mau mamam apa?">
+                <i class="fas fa-utensils cutlery-icon"></i>
+            </div>
+        </div>
+
+        <!-- 3. QUICK ACCESS ICONS -->
+        <div class="quick-access-scroll">
+            <div class="qa-item">
+                <div class="qa-icon-box">
+                    <i class="fas fa-shipping-fast" style="color: var(--primary-green);"></i>
+                </div>
+                <div class="qa-label">Ongkir<br><span class="text-bold">MURAAAH</span></div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon-box">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary-red);"></i>
+                </div>
+                <div class="qa-label">Resto<br><span class="text-bold">Terdekat</span></div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon-box">
+                    <i class="fas fa-tags" style="color: #e67e22;"></i>
+                    <div class="qa-badge">-40%</div>
+                </div>
+                <div class="qa-label">Dimanja<br><span class="text-bold">Promo</span></div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon-box">
+                    <i class="fas fa-carrot" style="color: #27ae60;"></i>
+                </div>
+                <div class="qa-label">Menu<br><span class="text-bold">Sehat</span></div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon-box">
+                    <i class="fas fa-award" style="color: #f1c40f;"></i>
+                </div>
+                <div class="qa-label">GoFood<br><span class="text-bold">HEMAT</span></div>
+            </div>
+        </div>
+
+        <!-- 4. SECTION: Sambil kumpul bareng teman -->
+        <div class="section-header">
+            <div class="section-title">Sambil kumpul bareng teman</div>
+            <a href="#" class="btn-see-all">Lihat semua</a>
+        </div>
+
+        <div class="h-scroll-container">
+            <!-- Card 1 -->
+            <div class="card-landscape">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1541592103007-ce9a43363b2f?q=80&w=400&auto=format&fit=crop"
+                        alt="Mie">
+                    <div class="badge-discount"><i class="fas fa-tag"></i> 50% off</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta-row" style="margin-bottom: 4px;">
+                        <div class="rating-box"><i class="fas fa-star"></i> 4.9</div>
+                    </div>
+                    <div class="card-title">Mie Gacoan, Surabaya Wiyung</div>
+                    <div class="card-meta-row">
+                        <span>25-35 min</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="card-landscape">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1552895638-f7fe08d2f7d5?q=80&w=400&auto=format&fit=crop"
+                        alt="Burger">
+                    <div class="badge-discount"><i class="fas fa-tag"></i> 11.5k off</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta-row" style="margin-bottom: 4px;">
+                        <div class="rating-box"><i class="fas fa-star"></i> 4.8</div>
+                    </div>
+                    <div class="card-title">McDonald's, Wiyung Surabaya</div>
+                    <div class="card-meta-row">
+                        <span>20-30 min</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="card-landscape">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=400&auto=format&fit=crop"
+                        alt="KFC">
+                    <div class="badge-discount"><i class="fas fa-tag"></i> Promo</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta-row" style="margin-bottom: 4px;">
+                        <div class="rating-box"><i class="fas fa-star"></i> 4.8</div>
+                    </div>
+                    <div class="card-title">KFC, Wiyung Surabaya</div>
+                    <div class="card-meta-row">
+                        <span>20-30 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. SECTION: Coba yang Baru di GoFood! (Portrait) -->
+        <div style="margin-top: 12px;"></div>
+        <div class="section-header">
+            <div>
+                <div class="section-title">Coba yang Baru di GoFood!</div>
+                <div class="section-subtitle">Ini dia UMKM favorit foodies lokal.</div>
+            </div>
+            <a href="#" class="btn-see-all">Lihat semua</a>
+        </div>
+
+        <div class="h-scroll-container">
+            <!-- P-Card 1 -->
+            <div class="card-portrait">
+                <div class="portrait-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400&auto=format&fit=crop"
+                        alt="Pizza">
+                    <div class="portrait-rating"><i class="fas fa-star" style="color:orange;"></i> 5.0</div>
+                </div>
+                <div class="portrait-title">Slice n Sip, Jl. Raya Darmo</div>
+                <div class="portrait-sub">Kopi, Barat, Pizza</div>
+            </div>
+            <!-- P-Card 2 -->
+            <div class="card-portrait">
+                <div class="portrait-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?q=80&w=400&auto=format&fit=crop"
+                        alt="Ubi">
+                    <div class="portrait-rating"><i class="fas fa-star" style="color:orange;"></i> 5.0</div>
+                </div>
+                <div class="portrait-title">Ubi madu bakar</div>
+                <div class="portrait-sub">Jajanan, Cepat saji</div>
+            </div>
+            <!-- P-Card 3 -->
+            <div class="card-portrait">
+                <div class="portrait-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=400&auto=format&fit=crop"
+                        alt="Ayam">
+                    <div class="portrait-rating"><i class="fas fa-star" style="color:orange;"></i> 4.8</div>
+                </div>
+                <div class="portrait-title">Moon Chicken</div>
+                <div class="portrait-sub">Korea, Ayam</div>
+            </div>
+        </div>
+
+        <!-- 6. SECTION: Jajanan tengah malam (Filter Chips + Big List) -->
+        <div style="margin-top: 12px;"></div>
+        <div class="section-header">
+            <div>
+                <div class="section-title">Jajanan tengah malam enak buat kamu</div>
+                <div class="section-subtitle">Coba yang Baru di GoFood!</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-scroll">
+            <div class="filter-chip-icon"><i class="fas fa-sliders-h"></i></div>
+            <div class="filter-chip" style="font-weight: 600; border-color: #333;">Terdekat</div>
+            <div class="filter-chip">Bintang 4.5+</div>
+            <div class="filter-chip">Kuliner <i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- Big Card 1 -->
+        <div class="card-big">
+            <div class="big-img-wrap">
+                <img src="https://images.unsplash.com/photo-1541592103007-ce9a43363b2f?q=80&w=600&auto=format&fit=crop"
+                    alt="Mie">
+                <div class="badge-discount"><i class="fas fa-tag"></i> 50% off</div>
+            </div>
+            <div class="card-content">
+                <div class="card-title" style="font-size: 16px;">Mie Gacoan, Surabaya Wiyung</div>
+                <div class="card-meta-row">
+                    <div class="rating-box"><i class="fas fa-star"></i> 4.9</div>
+                    <span>• 25rb-35rb • Bakmie, Jajanan</span>
+                </div>
+                <div class="card-meta-row" style="margin-top: 6px;">
+                    <i class="fas fa-motorcycle"></i> 25-35 min • 5.26 km
+                </div>
+            </div>
+            <div class="promo-strip">
+                <i class="fas fa-percent"></i> Diskon 50%, maks. 129rb
+            </div>
+        </div>
+
+        <!-- Big Card 2 -->
+        <div class="card-big">
+            <div class="big-img-wrap">
+                <img src="https://images.unsplash.com/photo-1606502973872-dae638d82699?q=80&w=600&auto=format&fit=crop"
+                    alt="Sate">
+                <div class="badge-discount"><i class="fas fa-tag"></i> 45% off</div>
+            </div>
+            <div class="card-content">
+                <div class="card-title" style="font-size: 16px;">Sate HQQ, Jln Kemlaten Baru</div>
+                <div class="card-meta-row">
+                    <div class="rating-box"><i class="fas fa-star"></i> 4.8</div>
+                    <span>• 20rb-30rb • Sate</span>
+                </div>
+                <div class="card-meta-row" style="margin-top: 6px;">
+                    <i class="fas fa-motorcycle"></i> 20-30 min • 2.21 km
+                </div>
+            </div>
+            <div class="promo-strip" style="background: #e6f7ed; color: #00880d; border-color: #c3e6cb;">
+                <i class="fas fa-check-circle"></i> 45% off & Gojek PLUS
+            </div>
+        </div>
+
+        <!-- 7. SECTION: Cek yang menarik (Slider) -->
+        <div style="margin-top: 12px;"></div>
+        <div class="section-header">
+            <div class="section-title">Cek yang menarik di GoFood</div>
+        </div>
+        <div class="promo-slider">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop"
+                class="promo-banner-img" alt="Banner">
+            <div class="dots-row">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- 8. SECTION: Promo buat kamu -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">Promo buat kamu</div>
+                <div class="section-subtitle">Pakai pas checkout, ya.</div>
+            </div>
+        </div>
+        <div class="h-scroll-container">
+            <div class="coupon-card">
+                <div class="coupon-left"><i class="fas fa-percentage"></i></div>
+                <div class="coupon-right">
+                    <div class="coupon-title">Diskon ongkir 11,5rb</div>
+                    <div class="coupon-desc">Min. pembelian 15rb.<br>Persediaan terbatas</div>
+                </div>
+            </div>
+            <div class="coupon-card">
+                <div class="coupon-left"><i class="fas fa-percentage"></i></div>
+                <div class="coupon-right">
+                    <div class="coupon-title">Diskon makanan 25%</div>
+                    <div class="coupon-desc">Min. pembelian 40rb.<br>Berakhir hari ini</div>
+                </div>
+            </div>
+        </div>
+        <!-- 9. SECTION: Pilihan kuliner favoritmu (Grid) -->
+        <div class="section-header">
+            <div class="section-title">Pilihan kuliner favoritmu</div>
+            <a href="#" class="btn-see-all">Lihat Semua</a>
+        </div>
+        <div class="cat-grid">
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1541592103007-ce9a43363b2f?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Jajanan">
+                <span class="cat-circle-text">Jajanan</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1579372786545-d24232daf58c?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Sweets">
+                <span class="cat-circle-text">Sweets</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Martabak">
+                <span class="cat-circle-text">Martabak</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Bakso">
+                <span class="cat-circle-text">Bakso &<br>soto</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Nasi">
+                <span class="cat-circle-text">Aneka<br>nasi</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Minuman">
+                <span class="cat-circle-text">Minuman</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Chinese">
+                <span class="cat-circle-text">Chinese</span>
+            </div>
+            <div class="cat-circle-item">
+                <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=150&auto=format&fit=crop"
+                    class="cat-circle-img" alt="Korea">
+                <span class="cat-circle-text">Korea</span>
+            </div>
+        </div>
+
+        <!-- 10. SECTION: Resto dengan rating jempolan -->
+        <div class="section-header">
+            <div class="section-title">Resto dengan rating jempolan</div>
+            <div class="section-subtitle"
+                style="font-size: 11px; background: #eee; padding: 2px 4px; border-radius: 4px; display: inline-block;">
+                Ad</div>
+        </div>
+        <div class="h-scroll-container">
+            <!-- Card 1 -->
+            <div class="card-landscape">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?q=80&w=400&auto=format&fit=crop"
+                        alt="Chicken">
+                    <div class="badge-discount" style="background: #e02020;">26% off</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta-row">
+                        <span>5.03 km • 20-30 min</span>
+                    </div>
+                    <div class="card-title" style="margin-top: 4px;">Uno Chicken (Hangry)</div>
+                    <div class="card-meta-row">
+                        <div class="rating-box" style="background: transparent; color: #333; padding: 0;"><i
+                                class="fas fa-star" style="color: orange;"></i> 4.7 <span
+                                style="font-weight: 400; color: #999;">(10+ rating)</span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="card-landscape">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1619881589316-56c7f9e6b587?q=80&w=400&auto=format&fit=crop"
+                        alt="Bento">
+                    <div class="badge-discount" style="background: #e02020;">54% off</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta-row">
+                        <span>5.03 km • 20-30 min</span>
+                    </div>
+                    <div class="card-title" style="margin-top: 4px;">Bishi Bento by Hangry</div>
+                    <div class="card-meta-row">
+                        <div class="rating-box" style="background: transparent; color: #333; padding: 0;"><i
+                                class="fas fa-star" style="color: orange;"></i> 5.0 <span
+                                style="font-weight: 400; color: #999;">(20+ rating)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FLOATING BOTTOM BANNER -->
+        <div class="floating-bar">
+            <div class="fb-left">
+                <i class="fas fa-shipping-fast fb-icon"></i>
+                <div class="fb-texts">
+                    <h4>Makanan siap antar 15 menit</h4>
+                    <p>Coba GoFood Flash, dijamin gak telat.</p>
+                </div>
+            </div>
+            <div class="fb-btn">
+                <i class="fas fa-arrow-right" style="font-size: 14px;"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Efek Scroll pada Header & Search Bar
+        const header = document.getElementById('appHeader');
+        const searchBar = document.getElementById('stickySearch');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+                searchBar.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                searchBar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
