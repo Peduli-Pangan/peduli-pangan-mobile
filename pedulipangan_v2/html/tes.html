@@ -1,114 +1,215 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimanja Promo List Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* Reset dasar untuk demo */
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        /* Container Utama Flash Sale */
-        .flash-sale-banner {
-            background-color: #E02424; /* Merah seperti di gambar */
-            color: white;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 8px 8px 0 0; /* Melengkung di atas jika ini bagian atas card */
-            width: 100%;
-            max-width: 480px; /* Simulasi lebar layar HP */
-            margin: 20px auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
         }
 
-        /* Bagian Kiri: Teks */
-        .fs-info {
-            display: flex;
-            flex-direction: column;
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
 
-        .fs-title {
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 2px;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .fs-subtitle {
-            font-size: 12px;
-            opacity: 0.9;
-            font-weight: 400;
+        /* Custom Gojek Colors */
+        .bg-go-green {
+            background-color: #00880C;
         }
 
-        /* Bagian Tengah: Timer */
-        .fs-timer {
-            background-color: white;
-            color: #E02424;
-            padding: 4px 12px;
-            border-radius: 20px; /* Bentuk kapsul */
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .text-go-green {
+            color: #00880C;
         }
 
-        /* Ikon Jam kecil di timer */
-        .timer-icon {
-            font-size: 12px;
+        .bg-flash-red {
+            background-color: #E9004C;
         }
 
-        /* Bagian Kanan: Tombol */
-        .fs-button {
-            background-color: #E5F9E8; /* Hijau muda pudar */
-            color: #008f28; /* Hijau tua */
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 12px;
-            padding: 8px 12px;
-            border-radius: 16px;
-            transition: opacity 0.2s;
-        }
-
-        .fs-button:hover {
-            opacity: 0.8;
-        }
-
-        /* Responsive: Agar rapi di layar sangat kecil */
-        @media (max-width: 380px) {
-            .flash-sale-banner {
-                flex-wrap: wrap;
-                gap: 10px;
-                justify-content: center;
-                text-align: center;
-            }
-            .fs-info { align-items: center; width: 100%; }
+        /* Typography adjustments */
+        .text-xxs {
+            font-size: 0.65rem;
         }
     </style>
 </head>
-<body>
 
-    <div class="flash-sale-banner">
-        
-        <div class="fs-info">
-            <div class="fs-title">
-                <span>⚡</span> Flash Sale
+<body class="flex justify-center min-h-screen">
+
+    <div class="w-full max-w-[480px] bg-gray-50 min-h-screen relative flex flex-col shadow-xl">
+
+        <header class="bg-white sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+            <div class="px-4 py-4 flex items-center gap-4">
+                <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition">
+                    <i class="fa-solid fa-arrow-left text-lg text-gray-800"></i>
+                </button>
+                <h1 class="font-bold text-lg text-gray-900">Dimanja Promo</h1>
             </div>
-            <div class="fs-subtitle">Diskon makan malam 35%.</div>
-        </div>
 
-        <div class="fs-timer">
-            <span class="timer-icon">🕒</span>
-            <span id="countdown">00 : 19 : 47</span>
-        </div>
+            <div class="px-4 pb-3 flex overflow-x-auto gap-2 no-scrollbar">
+                <button
+                    class="w-9 h-9 border border-gray-300 rounded-full flex items-center justify-center shrink-0 bg-white">
+                    <i class="fa-solid fa-sliders text-gray-600 text-sm"></i>
+                </button>
 
-        <a href="#" class="fs-button">Cek semua</a>
+                <button
+                    class="bg-gray-50 border border-gray-200 rounded-full pl-1 pr-3 py-1.5 flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                    <span
+                        class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Baru</span>
+                    <span class="text-xs font-bold text-gray-800">Diantar 15 min</span>
+                    <i class="fa-solid fa-bolt text-purple-600 text-xs"></i>
+                </button>
 
+                <button
+                    class="border border-gray-300 rounded-full px-4 py-1.5 text-xs font-semibold text-gray-700 shrink-0 bg-white">
+                    Terdekat
+                </button>
+
+                <button
+                    class="border border-gray-300 rounded-full px-4 py-1.5 text-xs font-semibold text-gray-700 shrink-0 bg-white">
+                    Bintang 4.5+
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 space-y-4 pb-20 overflow-y-auto no-scrollbar">
+
+            <!-- KONTEN FIX -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+
+                </div>
+
+                <div class="p-4 pb-3 relative">
+                    <div
+                        class="absolute -top-4 left-4 bg-white border border-gray-100 rounded-full px-2 py-1 shadow-sm flex items-center gap-2">
+                        <div class="flex items-center gap-1 bg-green-100 px-1.5 rounded-full">
+                            <i class="fa-solid fa-star text-go-green text-[10px]"></i>
+                            <span class="text-xs font-bold text-gray-900">4.9</span>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600 flex items-center gap-1">
+                            <i class="fa-solid fa-motorcycle text-xs"></i> 20-30 min
+                        </span>
+                        <span class="text-xs text-gray-400">5.03 km</span>
+                    </div>
+
+                    <div class="mt-2">
+                        <h2 class="font-bold text-gray-900 text-[15px] leading-tight mb-1">Moon Chicken (Hangry Fried
+                            Chicken), Wiyung</h2>
+                        <p class="text-xs text-gray-500 truncate">45rb-55rb • Ayam & bebek, Aneka nasi, Cepat saji, +2
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-yellow-500 text-white px-4 py-2 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-white text-sm"></i>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-[9px] bg-white/20 px-1 rounded inline-block w-max mb-0.5">surplus</span>
+                            <span class="text-xs font-bold">Diskon makan malam 35%.</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/20 rounded px-2 py-1 font-mono text-xs font-bold flex items-center gap-1">
+                        <i class="fa-regular fa-clock text-[10px]"></i> 00 : 19 : 47
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1513639776629-7b611594e29b?auto=format&fit=crop&w=600&q=80"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+
+                <div class="p-4 pb-3 relative">
+                    <div
+                        class="absolute -top-4 left-4 bg-white border border-gray-100 rounded-full px-2 py-1 shadow-sm flex items-center gap-2">
+                        <div class="flex items-center gap-1 bg-green-100 px-1.5 rounded-full">
+                            <i class="fa-solid fa-star text-go-green text-[10px]"></i>
+                            <span class="text-xs font-bold text-gray-900">4.9</span>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600 flex items-center gap-1">
+                            <i class="fa-solid fa-motorcycle text-xs"></i> 15-25 min
+                        </span>
+                        <span class="text-xs text-gray-400">1.91 km</span>
+                    </div>
+
+                    <div class="mt-2">
+                        <h2 class="font-bold text-gray-900 text-[15px] leading-tight mb-1">Krezz Wafa Fried Chicken,
+                            Kemlaten</h2>
+                        <p class="text-xs text-gray-500 truncate">10rb-20rb • Cepat saji, Aneka nasi, Ayam & bebek
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-yellow-500 text-white px-4 py-2 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-white text-sm"></i>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-[9px] bg-white/20 px-1 rounded inline-block w-max mb-0.5">surplus</span>
+                            <span class="text-xs font-bold">Diskon 34% & Gojek PLUS</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/20 rounded px-2 py-1 font-mono text-xs font-bold flex items-center gap-1">
+                        <i class="fa-regular fa-clock text-[10px]"></i> 00 : 15 : 00
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1606756816550-6a9b4074c7e6?auto=format&fit=crop&w=600&q=80"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+
+                <div class="p-4 pb-3 relative">
+                    <div
+                        class="absolute -top-4 left-4 bg-white border border-gray-100 rounded-full px-2 py-1 shadow-sm flex items-center gap-2">
+                        <div class="flex items-center gap-1 bg-green-100 px-1.5 rounded-full">
+                            <i class="fa-solid fa-star text-go-green text-[10px]"></i>
+                            <span class="text-xs font-bold text-gray-900">4.7</span>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600 flex items-center gap-1">
+                            <i class="fa-solid fa-motorcycle text-xs"></i> 30-40 min
+                        </span>
+                        <span class="text-xs text-gray-400">3.2 km</span>
+                    </div>
+
+                    <div class="mt-2">
+                        <h2 class="font-bold text-gray-900 text-[15px] leading-tight mb-1">Ayam Geprek Juara</h2>
+                        <p class="text-xs text-gray-500 truncate">15rb-35rb • Ayam, Sambal, Minuman
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-yellow-500 text-white px-4 py-2 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-white text-sm"></i>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-[9px] bg-white/20 px-1 rounded inline-block w-max mb-0.5">surplus</span>
+                            <span class="text-xs font-bold">Diskon makan malam 35%.</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/20 rounded px-2 py-1 font-mono text-xs font-bold flex items-center gap-1">
+                        <i class="fa-regular fa-clock text-[10px]"></i> 00 : 19 : 47
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
 </body>
+
 </html>

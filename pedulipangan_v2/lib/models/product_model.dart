@@ -17,7 +17,7 @@ class ProductModel {
   final String tag;
   final DateTime? pickupWindow;
 
-  ProductModel({
+  const ProductModel({
     required this.id,
     required this.createdAt,
     this.updatedAt,
