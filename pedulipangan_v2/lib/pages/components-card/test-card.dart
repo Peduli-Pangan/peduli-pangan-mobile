@@ -308,7 +308,7 @@ class TestCardPage extends StatelessWidget {
         time: '15 min',
         distance: '2.5 km',
         discountText: '50%',
-        timer: '02:00:00',
+        endTime: '22:00',
       ),
       const SizedBox(height: 16),
       BigSurplusCard(
@@ -333,7 +333,7 @@ class TestCardPage extends StatelessWidget {
         time: '20 min',
         distance: '3.0 km',
         discountText: '30%',
-        timer: '01:30:00',
+        endTime: '21:30',
       ),
       const SizedBox(height: 16),
       BigSurplusCard(
@@ -358,7 +358,7 @@ class TestCardPage extends StatelessWidget {
         time: '5 min',
         distance: '1.0 km',
         discountText: '20%',
-        timer: '00:45:00',
+        endTime: '20:45',
       ),
     ];
   }
@@ -387,7 +387,7 @@ class TestCardPage extends StatelessWidget {
         time: '25 min',
         distance: '4.0 km',
         discountText: '40%',
-        timer: '01:15:00',
+        endTime: '21:15',
       ),
       SurplusCard(
         product: ProductModel(
@@ -411,7 +411,7 @@ class TestCardPage extends StatelessWidget {
         time: '30 min',
         distance: '5.0 km',
         discountText: '25%',
-        timer: '00:50:00',
+        endTime: '20:50',
       ),
       SurplusCard(
         product: ProductModel(
@@ -435,7 +435,7 @@ class TestCardPage extends StatelessWidget {
         time: '10 min',
         distance: '1.5 km',
         discountText: '15%',
-        timer: '00:30:00',
+        endTime: '20:30',
       ),
     ];
   }

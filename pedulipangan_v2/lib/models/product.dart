@@ -4,7 +4,8 @@ class Product {
   final String name;
   final String imageUrl;
   final double price;
-  final double originalPrice; // For strikethrough if needed, or just display price
+  final double
+  originalPrice; // For strikethrough if needed, or just display price
   final int quantityLeft;
   final String pickupTimeStart;
   final String pickupTimeEnd;
@@ -32,19 +33,22 @@ class Product {
 final List<Product> dummyProducts = [
   Product(
     name: "Donat Kentang",
-    imageUrl: "assets/img/donat.png", // Placeholder
+    imageUrl:
+        "https://images.unsplash.com/photo-1551024601-563772a8c4f1?auto=format&fit=crop&w=800&q=80", // Donut
     price: 10000,
     quantityLeft: 3,
     pickupTimeStart: "18:00",
     pickupTimeEnd: "20:00 WIB",
     distance: 800,
     restaurant: dummyRestaurant,
-    description: "Varian donat yang lembut dan empuk karena terbuat dari campuran tepung terigu dan kentang, memberikan tekstur yang ringan namun tetap padat. Dengan rasa yang manis dan topping yang beragam.",
+    description:
+        "Varian donat yang lembut dan empuk karena terbuat dari campuran tepung terigu dan kentang, memberikan tekstur yang ringan namun tetap padat. Dengan rasa yang manis dan topping yang beragam.",
     isSurplus: true,
   ),
   Product(
     name: "Hot Dog",
-    imageUrl: "assets/img/hotdog.png", // Placeholder
+    imageUrl:
+        "https://images.unsplash.com/photo-1612392062631-94dd85fa2dd0?auto=format&fit=crop&w=800&q=80", // Hot Dog
     price: 10000,
     quantityLeft: 3,
     pickupTimeStart: "18:00",

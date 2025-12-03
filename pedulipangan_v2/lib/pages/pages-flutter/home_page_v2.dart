@@ -118,7 +118,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 time: '25-35 min',
                                 distance: '5.26 km',
                                 discountText: 'Diskon 50%, maks. 129rb',
-                                timer: '00 : 19 : 47',
+                                endTime: '21:00',
                               ),
                               SurplusCard(
                                 product: ProductModel(
@@ -143,7 +143,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 time: '20-30 min',
                                 distance: '2.21 km',
                                 discountText: '45% off & Gojek PLUS',
-                                timer: '00 : 15 : 00',
+                                endTime: '20:30',
                               ),
                             ],
                           ),
@@ -274,7 +274,7 @@ class _HomePageV2State extends State<HomePageV2> {
                           time: '25-35 min',
                           distance: '5.26 km',
                           discountText: 'Diskon 50%, maks. 129rb',
-                          timer: '00 : 19 : 47',
+                          endTime: '21:00',
                         ),
                         BigSurplusCard(
                           product: ProductModel(
@@ -298,7 +298,7 @@ class _HomePageV2State extends State<HomePageV2> {
                           time: '20-30 min',
                           distance: '2.21 km',
                           discountText: '45% off & Gojek PLUS',
-                          timer: '00 : 15 : 00',
+                          endTime: '20:30',
                         ),
 
                         // 7. Section: Cek yang menarik
@@ -405,7 +405,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 time: '20-30 min',
                                 distance: '5.03 km',
                                 discountText: '26% off',
-                                timer: '00 : 30 : 00',
+                                endTime: '22:00',
                               ),
                               SurplusCard(
                                 product: ProductModel(
@@ -429,7 +429,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 time: '20-30 min',
                                 distance: '5.03 km',
                                 discountText: '54% off',
-                                timer: '00 : 45 : 00',
+                                endTime: '22:30',
                               ),
                             ],
                           ),

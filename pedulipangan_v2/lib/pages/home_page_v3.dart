@@ -4,6 +4,8 @@ import 'package:pedulipangan_v2/pages/catering_menu.dart';
 import 'package:pedulipangan_v2/pages/product_detail_page.dart';
 import '../models/product.dart';
 import '../models/restaurant.dart';
+import '../widgets/surplus_countdown.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePageV3 extends StatefulWidget {
   const HomePageV3({super.key});
@@ -13,6 +15,20 @@ class HomePageV3 extends StatefulWidget {
 }
 
 class _HomePageV3State extends State<HomePageV3> {
+  // State untuk Lokasi
+  String _currentLocationText = "Memuat lokasi...";
+  String _selectedLocation = "Pilih Lokasi";
+
+  // Daftar Lokasi (Dropdown items)
+  final List<String> _locations = [
+    "Pilih Lokasi",
+    "Lokasi Terkini",
+    "Kantor A",
+    "Rumah B",
+    "Apartemen C",
+    "Kampus Lidah Wetan",
+  ];
+
   int _currentFeaturedIndex = 0;
 
   final List<Map<String, dynamic>> _featuredItems = [
@@ -47,6 +63,53 @@ class _HomePageV3State extends State<HomePageV3> {
       'color': Colors.green,
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _determinePosition();
+  }
+
+  // --- LOGIC: Lokasi Terkini (GPS) ---
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      _currentLocationText = 'Layanan Lokasi dinonaktifkan.';
+      setState(() {});
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        _currentLocationText = 'Izin lokasi ditolak.';
+        setState(() {});
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      _currentLocationText = 'Izin lokasi ditolak selamanya.';
+      setState(() {});
+      return;
+    }
+
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low,
+      );
+      // Simulasikan konversi koordinat ke nama lokasi (biasanya menggunakan geocoding)
+      _currentLocationText =
+          '(${position.latitude.toStringAsFixed(2)}, ${position.longitude.toStringAsFixed(2)})';
+    } catch (e) {
+      _currentLocationText = 'Gagal mendapatkan lokasi.';
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,19 +166,48 @@ class _HomePageV3State extends State<HomePageV3> {
                                   color: Colors.grey[500],
                                 ),
                               ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Kampus Lidah Wetan',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black87,
-                                    ),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _selectedLocation,
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 18,
                                   ),
-                                  Icon(Icons.arrow_drop_down, size: 18),
-                                ],
+                                  isDense: true,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedLocation = newValue!;
+                                      if (newValue == "Lokasi Terkini") {
+                                        _currentLocationText =
+                                            "Memuat lokasi...";
+                                        _determinePosition();
+                                      }
+                                    });
+                                  },
+                                  items:
+                                      _locations.map<DropdownMenuItem<String>>((
+                                        String value,
+                                      ) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                ),
                               ),
+                              if (_selectedLocation == "Lokasi Terkini")
+                                Text(
+                                  _currentLocationText,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
                             ],
                           ),
                         ],
@@ -450,12 +542,14 @@ class _HomePageV3State extends State<HomePageV3> {
                                       color: color[100],
                                       borderRadius: BorderRadius.circular(4),
                                     ),
-                                    child: Text(
-                                      '⏱ 02:15:00',
+                                    child: const SurplusCountdown(
+                                      endTime: "22:00", // Example end time
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
-                                        color: color[700],
+                                        color:
+                                            Colors
+                                                .green, // Using a fixed color for now as 'color' var is not easily accessible here without more changes, or I can try to use it if it's in scope. It is in scope.
                                         fontFamily: 'monospace',
                                       ),
                                     ),

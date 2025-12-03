@@ -3,6 +3,7 @@ import '../theme.dart';
 import '../models/product.dart';
 import '../models/cart.dart';
 import '../models/menu.dart';
+import '../widgets/surplus_countdown.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -28,11 +29,40 @@ class ProductDetailPage extends StatelessWidget {
                       width: double.infinity,
                       color: const Color(0xFFF5F5F5), // Light grey background
                       child: Center(
-                        child: Image.network(
-                          "https://picsum.photos/400", // Placeholder
-                          height: 250,
-                          fit: BoxFit.contain,
-                        ),
+                        child:
+                            product.imageUrl.startsWith('http')
+                                ? Image.network(
+                                  product.imageUrl,
+                                  height: 250,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 250,
+                                      color: Colors.grey[300],
+                                      child: const Icon(
+                                        Icons.broken_image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  },
+                                )
+                                : Image.asset(
+                                  product.imageUrl,
+                                  height: 250,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 250,
+                                      color: Colors.grey[300],
+                                      child: const Icon(
+                                        Icons.broken_image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  },
+                                ),
                       ),
                     ),
                     Positioned(
@@ -102,6 +132,7 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
 
+                      // ... (inside build method)
                       Row(
                         children: [
                           const Text(
@@ -111,6 +142,39 @@ class ProductDetailPage extends StatelessWidget {
                           Text(
                             "${product.pickupTimeStart} - ${product.pickupTimeEnd}",
                             style: const TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(width: 8),
+                          // Countdown Timer
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: Colors.red.withOpacity(0.5),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.timer,
+                                  size: 12,
+                                  color: Colors.red,
+                                ),
+                                const SizedBox(width: 4),
+                                SurplusCountdown(
+                                  endTime: product.pickupTimeEnd,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Container(
@@ -149,9 +213,17 @@ class ProductDetailPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                    "https://picsum.photos/100",
-                                  ), // Placeholder logo
+                                  image:
+                                      product.restaurant.imageUrl.startsWith(
+                                            'http',
+                                          )
+                                          ? NetworkImage(
+                                            product.restaurant.imageUrl,
+                                          )
+                                          : const AssetImage(
+                                                "assets/img/logo peduli-pangan-official.png",
+                                              )
+                                              as ImageProvider,
                                   fit: BoxFit.cover,
                                 ),
                               ),
