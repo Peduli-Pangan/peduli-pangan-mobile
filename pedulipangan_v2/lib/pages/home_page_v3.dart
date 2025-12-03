@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import '../models/menu.dart';
+
 import 'package:pedulipangan_v2/pages/catering_menu.dart';
 import 'package:pedulipangan_v2/pages/product_detail_page.dart';
+import '../models/product.dart';
+import '../models/restaurant.dart';
 
 class HomePageV3 extends StatefulWidget {
   const HomePageV3({super.key});
@@ -284,27 +286,34 @@ class _HomePageV3State extends State<HomePageV3> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    final dummyMeal = OrderableMealModel(
-                      type: 'Featured',
-                      description: item['name']!,
-                      price: 50000.0, // Dummy price
+                    final restaurant = Restaurant(
+                      name: item['name']!,
+                      address: 'Featured Location',
+                      rating: double.tryParse(item['rating']!) ?? 4.5,
+                      imageUrl: '',
+                      latitude: 0.0,
+                      longitude: 0.0,
+                    );
+
+                    final product = Product(
+                      name: item['name']!,
                       imageUrl: item['image'],
-                      restaurantName: item['name']!,
-                      restaurantAddress: 'Featured Location',
-                      restaurantLogoUrl: '',
-                      pickupTime: item['time']!,
-                      stock: 10,
-                      tags: [item['category']!, 'Featured'],
+                      price: 50000.0, // Dummy price
+                      quantityLeft: 10,
+                      pickupTimeStart: "10:00",
+                      pickupTimeEnd: "22:00",
+                      distance: 2.5,
+                      restaurant: restaurant,
+                      description:
+                          "Delicious ${item['name']} from ${item['category']}",
+                      isSurplus: true,
                     );
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder:
-                            (context) => ProductDetailPage(
-                              meal: dummyMeal,
-                              date: DateTime.now(),
-                            ),
+                            (context) => ProductDetailPage(product: product),
                       ),
                     );
                   },
@@ -626,31 +635,37 @@ class _HomePageV3State extends State<HomePageV3> {
           final pkg = packages[index];
           return GestureDetector(
             onTap: () {
-              final dummyMeal = OrderableMealModel(
-                type: 'Package',
-                description: pkg['title']!,
+              final restaurant = Restaurant(
+                name: pkg['shop']!,
+                address: 'Package Location',
+                rating: double.tryParse(pkg['rating']!) ?? 4.5,
+                imageUrl: '',
+                latitude: 0.0,
+                longitude: 0.0,
+              );
+
+              final product = Product(
+                name: pkg['title']!,
+                imageUrl: pkg['image'] ?? "",
                 price:
                     double.parse(
                       pkg['price']!.replaceAll(RegExp(r'[^0-9]'), ''),
                     ) *
                     1000,
-                imageUrl: pkg['image'],
-                restaurantName: pkg['shop']!,
-                restaurantAddress: 'Package Location',
-                restaurantLogoUrl: '',
-                pickupTime: '10:00 - 21:00',
-                stock: 20,
-                tags: ['Package', 'Hemat'],
+                quantityLeft: 20,
+                pickupTimeStart: "10:00",
+                pickupTimeEnd: "21:00",
+                distance: 3.0,
+                restaurant: restaurant,
+                description:
+                    "Hemat package: ${pkg['title']} from ${pkg['shop']}",
+                isSurplus: true,
               );
 
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder:
-                      (context) => ProductDetailPage(
-                        meal: dummyMeal,
-                        date: DateTime.now(),
-                      ),
+                  builder: (context) => ProductDetailPage(product: product),
                 ),
               );
             },
@@ -805,28 +820,32 @@ class _HomePageV3State extends State<HomePageV3> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  // Create a dummy meal for demonstration
-                  final dummyMeal = OrderableMealModel(
-                    type: 'Recommended',
-                    description: item['desc']!,
+                  final restaurant = Restaurant(
+                    name: item['name']!,
+                    address: 'Nearby Location',
+                    rating: double.tryParse(item['rating']!) ?? 4.5,
+                    imageUrl: '',
+                    latitude: 0.0,
+                    longitude: 0.0,
+                  );
+
+                  final product = Product(
+                    name: item['desc']!, // Using desc as name for variety
+                    imageUrl: item['image']!,
                     price: 25000.0,
-                    imageUrl: item['image'],
-                    restaurantName: item['name']!,
-                    restaurantAddress: 'Nearby Location',
-                    restaurantLogoUrl: '',
-                    pickupTime: item['time']!,
-                    stock: 10,
-                    tags: ['Recommended', 'Tasty'],
+                    quantityLeft: 10,
+                    pickupTimeStart: "10:00",
+                    pickupTimeEnd: "22:00",
+                    distance: 1.2,
+                    restaurant: restaurant,
+                    description: "${item['desc']} from ${item['name']}",
+                    isSurplus: true,
                   );
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder:
-                          (context) => ProductDetailPage(
-                            meal: dummyMeal,
-                            date: DateTime.now(),
-                          ),
+                      builder: (context) => ProductDetailPage(product: product),
                     ),
                   );
                 },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/product.dart';
+import '../models/cart.dart';
+import '../models/menu.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -39,7 +41,10 @@ class ProductDetailPage extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor: AppColors.primaryGreen,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
@@ -78,14 +83,21 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primaryGreen,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
                           "Surplus Food",
-                          style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -102,14 +114,20 @@ class ProductDetailPage extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.orange,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               "${product.quantityLeft} left",
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -131,9 +149,11 @@ class ProductDetailPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                   image: NetworkImage("https://picsum.photos/100"), // Placeholder logo
-                                   fit: BoxFit.cover
-                                )
+                                  image: NetworkImage(
+                                    "https://picsum.photos/100",
+                                  ), // Placeholder logo
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -143,18 +163,27 @@ class ProductDetailPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     product.restaurant.name,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                   Text(
                                     product.restaurant.address,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            const Icon(Icons.chevron_right, color: AppColors.primaryGreen),
+                            const Icon(
+                              Icons.chevron_right,
+                              color: AppColors.primaryGreen,
+                            ),
                           ],
                         ),
                       ),
@@ -163,7 +192,10 @@ class ProductDetailPage extends StatelessWidget {
                       // Description
                       const Text(
                         "Description",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -212,32 +244,55 @@ class ProductDetailPage extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  
+
                   // Add to Cart Button
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Create OrderableMealModel from Product
+                        final meal = OrderableMealModel(
+                          type: "Surplus", // Default type
+                          description: product.name,
+                          imageUrl: product.imageUrl,
+                          price: product.price,
+                          restaurantName: product.restaurant.name,
+                          restaurantAddress: product.restaurant.address,
+                          restaurantLogoUrl: product.restaurant.imageUrl,
+                          tags: ["Surplus Food"],
+                          pickupTime:
+                              "${product.pickupTimeStart} - ${product.pickupTimeEnd}",
+                          stock: product.quantityLeft,
+                        );
+
+                        // Add to global cart
+                        globalCart.addItem(meal, DateTime.now());
+
+                        // Show feedback
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${product.name} ditambahkan ke keranjang.',
+                            ),
+                            duration: const Duration(seconds: 1),
+                            backgroundColor: AppColors.primaryGreen,
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    ),
-                    child: const Text("Add to Cart", style: TextStyle(color: Colors.white)),
-                  ),
-                  const SizedBox(width: 12),
-                  
-                  // Buy Now Button
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00594C), // Darker green
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                      child: const Text(
+                        "Add to Cart",
+                        style: TextStyle(color: Colors.white),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                     ),
-                    child: const Text("Buy Now", style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

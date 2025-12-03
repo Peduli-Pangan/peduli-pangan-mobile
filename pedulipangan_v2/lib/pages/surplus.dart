@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/menu.dart';
+import '../models/product.dart';
+import '../models/restaurant.dart';
 import 'package:pedulipangan_v2/pages/product_detail_page.dart';
 
 class SurplusItem {
@@ -166,33 +167,38 @@ class SurplusPage extends StatelessWidget {
                           final item = items[index];
                           return GestureDetector(
                             onTap: () {
-                              // Create dummy meal from SurplusItem
-                              // Create dummy meal from SurplusItem
-                              final dummyMeal = OrderableMealModel(
-                                type: 'Surplus',
-                                description: item.description,
+                              final restaurant = Restaurant(
+                                name: item.title,
+                                address: 'Surplus Location',
+                                rating: 4.5,
+                                imageUrl: '',
+                                latitude: 0.0,
+                                longitude: 0.0,
+                              );
+
+                              final product = Product(
+                                name: item.description,
+                                imageUrl: item.imageUrl,
                                 price:
                                     double.tryParse(
                                       item.price.replaceAll('.', ''),
                                     ) ??
                                     0.0,
-                                imageUrl: item.imageUrl,
-                                restaurantName: item.title,
-                                restaurantAddress: 'Surplus Location',
-                                restaurantLogoUrl: '',
-                                pickupTime: item.distanceTime,
-                                stock: 5,
-                                tags: ['Surplus', 'Discount'],
+                                quantityLeft: 5,
+                                pickupTimeStart: "10:00",
+                                pickupTimeEnd: "22:00",
+                                distance: 1.5,
+                                restaurant: restaurant,
+                                description: item.description,
+                                isSurplus: true,
                               );
 
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder:
-                                      (context) => ProductDetailPage(
-                                        meal: dummyMeal,
-                                        date: DateTime.now(),
-                                      ),
+                                      (context) =>
+                                          ProductDetailPage(product: product),
                                 ),
                               );
                             },
