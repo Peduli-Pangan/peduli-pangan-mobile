@@ -43,23 +43,23 @@ class MyApp extends StatelessWidget {
       // home: const ListMakananPage(),
 
       // login
-      // home: FutureBuilder<bool>(
-      //   future: MockAuthService().checkLoginStatus(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Scaffold(
-      //         body: Center(child: CircularProgressIndicator()),
-      //       );
-      //     }
-      //     if (snapshot.data == true) {
-      //       return const MainWrapper();
-      //     } else {
-      //       return const LoginPage();
-      //     }
-      //   },
-      // ),
+      home: FutureBuilder<bool>(
+        future: MockAuthService().checkLoginStatus(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+          if (snapshot.data == true) {
+            return const MainWrapper();
+          } else {
+            return const LoginPage();
+          }
+        },
+      ),
 
-    home: TransaksiPickupPage(),
+    // home: TransaksiPickupPage(),
       
       // home: const TransaksiPickupPage(),
       // home: const TransaksiPickupPage(),
