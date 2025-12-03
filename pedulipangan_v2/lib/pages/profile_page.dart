@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pedulipangan_v2/pages/catering_menu.dart';
 import 'package:pedulipangan_v2/pages/riwayat_pesanan_page.dart';
+import 'package:pedulipangan_v2/services/mock_auth_service.dart';
+import 'package:pedulipangan_v2/pages/login_page.dart';
 import '../theme.dart'; // Asumsikan file theme.dart ada
 
 class ProfilePage extends StatelessWidget {
@@ -394,13 +396,20 @@ class ProfilePage extends StatelessWidget {
   //   );
   // }
 
-  void _handleLogout(BuildContext context) {
+  Future<void> _handleLogout(BuildContext context) async {
     // Logic untuk menghapus token otentikasi dan kembali ke halaman Login
-    // FirebaseAuth.instance.signOut();
-    // Navigator.pushReplacementNamed(context, '/login');
+    await MockAuthService().logout();
+
+    if (!context.mounted) return;
+
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Anda telah Log Out.')));
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+      (route) => false,
+    );
   }
 
   void _handleSeeDetails(BuildContext context, String invoice) {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/product.dart';
+import '../models/cart.dart';
+import '../models/menu.dart';
+import '../widgets/surplus_countdown.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -26,11 +29,40 @@ class ProductDetailPage extends StatelessWidget {
                       width: double.infinity,
                       color: const Color(0xFFF5F5F5), // Light grey background
                       child: Center(
-                        child: Image.network(
-                          "https://picsum.photos/400", // Placeholder
-                          height: 250,
-                          fit: BoxFit.contain,
-                        ),
+                        child:
+                            product.imageUrl.startsWith('http')
+                                ? Image.network(
+                                  product.imageUrl,
+                                  height: 250,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 250,
+                                      color: Colors.grey[300],
+                                      child: const Icon(
+                                        Icons.broken_image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  },
+                                )
+                                : Image.asset(
+                                  product.imageUrl,
+                                  height: 250,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 250,
+                                      color: Colors.grey[300],
+                                      child: const Icon(
+                                        Icons.broken_image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  },
+                                ),
                       ),
                     ),
                     Positioned(
@@ -39,7 +71,10 @@ class ProductDetailPage extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor: AppColors.primaryGreen,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
@@ -78,18 +113,26 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primaryGreen,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
                           "Surplus Food",
-                          style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
 
+                      // ... (inside build method)
                       Row(
                         children: [
                           const Text(
@@ -100,16 +143,55 @@ class ProductDetailPage extends StatelessWidget {
                             "${product.pickupTimeStart} - ${product.pickupTimeEnd}",
                             style: const TextStyle(color: Colors.grey),
                           ),
+                          const SizedBox(width: 8),
+                          // Countdown Timer
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: Colors.red.withOpacity(0.5),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.timer,
+                                  size: 12,
+                                  color: Colors.red,
+                                ),
+                                const SizedBox(width: 4),
+                                SurplusCountdown(
+                                  endTime: product.pickupTimeEnd,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(width: 12),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.orange,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               "${product.quantityLeft} left",
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -131,9 +213,19 @@ class ProductDetailPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                   image: NetworkImage("https://picsum.photos/100"), // Placeholder logo
-                                   fit: BoxFit.cover
-                                )
+                                  image:
+                                      product.restaurant.imageUrl.startsWith(
+                                            'http',
+                                          )
+                                          ? NetworkImage(
+                                            product.restaurant.imageUrl,
+                                          )
+                                          : const AssetImage(
+                                                "assets/img/logo peduli-pangan-official.png",
+                                              )
+                                              as ImageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -143,18 +235,27 @@ class ProductDetailPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     product.restaurant.name,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                   Text(
                                     product.restaurant.address,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            const Icon(Icons.chevron_right, color: AppColors.primaryGreen),
+                            const Icon(
+                              Icons.chevron_right,
+                              color: AppColors.primaryGreen,
+                            ),
                           ],
                         ),
                       ),
@@ -163,7 +264,10 @@ class ProductDetailPage extends StatelessWidget {
                       // Description
                       const Text(
                         "Description",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -212,32 +316,55 @@ class ProductDetailPage extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  
+
                   // Add to Cart Button
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Create OrderableMealModel from Product
+                        final meal = OrderableMealModel(
+                          type: "Surplus", // Default type
+                          description: product.name,
+                          imageUrl: product.imageUrl,
+                          price: product.price,
+                          restaurantName: product.restaurant.name,
+                          restaurantAddress: product.restaurant.address,
+                          restaurantLogoUrl: product.restaurant.imageUrl,
+                          tags: ["Surplus Food"],
+                          pickupTime:
+                              "${product.pickupTimeStart} - ${product.pickupTimeEnd}",
+                          stock: product.quantityLeft,
+                        );
+
+                        // Add to global cart
+                        globalCart.addItem(meal, DateTime.now());
+
+                        // Show feedback
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${product.name} ditambahkan ke keranjang.',
+                            ),
+                            duration: const Duration(seconds: 1),
+                            backgroundColor: AppColors.primaryGreen,
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    ),
-                    child: const Text("Add to Cart", style: TextStyle(color: Colors.white)),
-                  ),
-                  const SizedBox(width: 12),
-                  
-                  // Buy Now Button
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00594C), // Darker green
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                      child: const Text(
+                        "Add to Cart",
+                        style: TextStyle(color: Colors.white),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                     ),
-                    child: const Text("Buy Now", style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/models/product_model.dart';
+import '../../widgets/surplus_countdown.dart';
 
 class BigSurplusCard extends StatelessWidget {
   final ProductModel product;
@@ -7,7 +8,7 @@ class BigSurplusCard extends StatelessWidget {
   final String time;
   final String distance;
   final String discountText;
-  final String timer;
+  final String endTime; // Changed from timer to endTime
 
   const BigSurplusCard({
     super.key,
@@ -16,7 +17,7 @@ class BigSurplusCard extends StatelessWidget {
     required this.time,
     required this.distance,
     required this.discountText,
-    required this.timer,
+    required this.endTime,
   });
 
   @override
@@ -236,8 +237,8 @@ class BigSurplusCard extends StatelessWidget {
                         size: 11,
                       ),
                       const SizedBox(width: 6),
-                      Text(
-                        timer,
+                      SurplusCountdown(
+                        endTime: endTime,
                         style: const TextStyle(
                           fontFamily: 'monospace',
                           fontSize: 12,

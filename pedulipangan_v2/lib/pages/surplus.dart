@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/menu.dart';
+import '../models/product.dart';
+import '../models/restaurant.dart';
 import 'package:pedulipangan_v2/pages/product_detail_page.dart';
 
 class SurplusItem {
@@ -103,40 +104,6 @@ class SurplusPage extends StatelessWidget {
                           children: [
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Row(
-                                children: const [
-                                  Icon(
-                                    Icons.access_time,
-                                    color: Colors.white,
-                                    size: 12,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    '00 : 19 : 47',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'monospace',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.green[100],
-                                borderRadius: BorderRadius.circular(99),
-                              ),
-                              padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 6,
                               ),
@@ -166,33 +133,38 @@ class SurplusPage extends StatelessWidget {
                           final item = items[index];
                           return GestureDetector(
                             onTap: () {
-                              // Create dummy meal from SurplusItem
-                              // Create dummy meal from SurplusItem
-                              final dummyMeal = OrderableMealModel(
-                                type: 'Surplus',
-                                description: item.description,
+                              final restaurant = Restaurant(
+                                name: item.title,
+                                address: 'Surplus Location',
+                                rating: 4.5,
+                                imageUrl: '',
+                                latitude: 0.0,
+                                longitude: 0.0,
+                              );
+
+                              final product = Product(
+                                name: item.description,
+                                imageUrl: item.imageUrl,
                                 price:
                                     double.tryParse(
                                       item.price.replaceAll('.', ''),
                                     ) ??
                                     0.0,
-                                imageUrl: item.imageUrl,
-                                restaurantName: item.title,
-                                restaurantAddress: 'Surplus Location',
-                                restaurantLogoUrl: '',
-                                pickupTime: item.distanceTime,
-                                stock: 5,
-                                tags: ['Surplus', 'Discount'],
+                                quantityLeft: 5,
+                                pickupTimeStart: "10:00",
+                                pickupTimeEnd: "22:00",
+                                distance: 1.5,
+                                restaurant: restaurant,
+                                description: item.description,
+                                isSurplus: true,
                               );
 
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder:
-                                      (context) => ProductDetailPage(
-                                        meal: dummyMeal,
-                                        date: DateTime.now(),
-                                      ),
+                                      (context) =>
+                                          ProductDetailPage(product: product),
                                 ),
                               );
                             },
