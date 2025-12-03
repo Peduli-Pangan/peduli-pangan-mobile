@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant List UI</title>
+    <style>
+        /* --- Reset & Base Styles --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #fff; padding: 10px; max-width: 480px; margin: 0 auto; border-right: 1px solid #eee; border-left: 1px solid #eee; }
+
+        /* --- Filter Chips (Bagian Atas) --- */
+        .filter-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .filter-scroll::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+        
+        .chip {
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            color: #1c1c1c;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .chip.active {
+            background-color: #FFEAEF; /* Pink muda pudar */
+            border-color: #FFEAEF;
+            font-weight: 600;
+        }
+
+        /* --- Restaurant Card Container --- */
+        .resto-card {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        /* --- Bagian Kiri: Gambar & Rating --- */
+        .card-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 12px; /* Ruang untuk badge rating yang overlap */
+        }
+
+        .resto-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            background-color: #eee;
+        }
+
+        .rating-badge {
+            position: absolute;
+            bottom: -8px; /* Mengambang keluar dari gambar */
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            font-size: 12px;
+            font-weight: 700;
+            color: #1c1c1c;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            width: max-content;
+            border: 1px solid #f0f0f0;
+        }
+
+        .star-icon { color: #FF7800; } /* Warna Oranye Bintang */
+        
+        .rating-count {
+            font-size: 10px;
+            color: #687176;
+            margin-top: 2px;
+        }
+
+        /* --- Bagian Kanan: Informasi --- */
+        .card-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Nama & Iklan */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+
+        .resto-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1c1c1c;
+            line-height: 1.3;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ad-tag {
+            font-size: 9px;
+            color: #999;
+            background: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-left: 4px;
+        }
+
+        /* Metadata (Harga, Kategori, Waktu) */
+        .meta-text {
+            font-size: 13px;
+            color: #687176;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        
+        .strike {
+            text-decoration: line-through;
+            color: #9A9A9A;
+            margin-left: 4px;
+        }
+
+        /* Ikon kecil untuk promo/waktu */
+        .icon-small { font-size: 12px; }
+
+        /* Warna khusus */
+        .text-promo { color: #E02424; font-weight: 600; } /* Merah Diskon */
+        .text-orange { color: #E55300; font-weight: 600; } /* Oranye Peringatan */
+
+        /* Tombol Cabang Lain */
+        .btn-branch {
+            margin-top: 8px;
+            background-color: #E5F9E8;
+            color: #00880D;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            width: fit-content;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="filter-scroll">
+        <div class="chip"><span style="transform: rotate(90deg)">⚙️</span></div>
+        <div class="chip active"><span style="color:red; font-weight:bold;">Baru</span> Diantar 15 min ⚡</div>
+        <div class="chip">Terdekat</div>
+        <div class="chip">Bintang 4+</div>
+    </div>
+
+    <div class="resto-card">
+        <div class="card-left">
+            <div class="img-wrapper">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=200&q=80" alt="Geprek" class="resto-img">
+                <div class="rating-badge"><span class="star-icon">★</span> 4.5</div>
+            </div>
+            <div class="rating-count">500+ ratings</div>
+        </div>
+        <div class="card-right">
+            <div class="card-header">
+                <div class="resto-name">Raja Geprek Arjuna, Lidah Wetan</div>
+                <div class="ad-tag">Ad</div>
+            </div>
+            <div class="meta-text">
+                30rb-40rb • Aneka nasi, Ayam & bebek
+            </div>
+            <div class="meta-text">
+                🛵 20-30 min • Ongkir 18.3rb <span class="strike">29.3rb</span>
+            </div>
+            <div class="meta-text text-promo">
+                🏷️ Diskon 45%, maks. 117rb
+            </div>
+        </div>
+    </div>
+
+    <div class="resto-card">
+        <div class="card-left">
+            <div class="img-wrapper">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=200&q=80" alt="Chicken" class="resto-img">
+                <div class="rating-badge"><span class="star-icon">★</span> 4.9</div>
+            </div>
+            <div class="rating-count">100+ ratings</div>
+        </div>
+        <div class="card-right">
+            <div class="meta-text text-orange" style="font-size: 12px; margin-bottom: 2px;">
+                🕒 Tutup dalam 13 min
+            </div>
+            <div class="card-header">
+                <div class="resto-name">Moon Chicken (Hangry Fried Chicken)</div>
+                <div class="ad-tag">Ad</div>
+            </div>
+            <div class="meta-text">
+                45rb-55rb • Ayam & bebek, Aneka nasi
+            </div>
+            <div class="meta-text">
+                🛵 20-30 min • Ongkir 11.8rb <span class="strike">22.8rb</span>
+            </div>
+            <div class="meta-text text-promo">
+                🏷️ Diskon 44%, maks. 171rb
+            </div>
+        </div>
+    </div>
+
+    <div class="resto-card">
+        <div class="card-left">
+            <div class="img-wrapper">
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=200&q=80" alt="McD" class="resto-img">
+                <div class="rating-badge"><span class="star-icon">★</span> 4.8</div>
+            </div>
+            <div class="rating-count">51rb+ ratings</div>
+        </div>
+        <div class="card-right">
+            <div class="card-header">
+                <div class="resto-name">McDonald's, Wiyung Surabaya</div>
+            </div>
+            <div class="meta-text">
+                40rb-50rb • Cepat saji, Sweets, Jajanan
+            </div>
+            <div class="meta-text">
+                🛵 20-30 min • Ongkir 13.1rb <span class="strike">24.1rb</span>
+            </div>
+            <div class="meta-text text-promo">
+                🏷️ Diskon ongkir s.d. 11rb
+            </div>
+            
+            <button class="btn-branch">Lihat cabang lain</button>
+        </div>
+    </div>
+
+</body>
+</html>

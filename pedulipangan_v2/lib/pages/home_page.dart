@@ -8,6 +8,18 @@ import '../theme.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  // TODO: Implement authentication check here.
+  // Example logic:
+  // void checkLoginStatus(BuildContext context) {
+  //   final session = Supabase.instance.client.auth.currentSession;
+  //   if (session == null) {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => const LoginPage()),
+  //     );
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

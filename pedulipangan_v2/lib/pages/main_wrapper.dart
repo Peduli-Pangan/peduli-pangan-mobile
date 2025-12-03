@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/cart_page.dart';
 import 'package:pedulipangan_v2/pages/catering_page.dart';
 import 'package:pedulipangan_v2/pages/home_page.dart';
+import 'package:pedulipangan_v2/pages/pages-flutter/home_page_v2.dart';
 import 'package:pedulipangan_v2/pages/profile_page.dart';
 import 'package:pedulipangan_v2/theme.dart';
 
@@ -18,6 +19,7 @@ class _MainWrapperState extends State<MainWrapper> {
   // Daftar Halaman yang akan ditampilkan sesuai menu
   final List<Widget> _pages = [
     const HomePage(),      // Halaman Home (Sesuai Desain)
+    // const HomePageV2(),      // Halaman Home (Sesuai Desain)
     const CateringPage(), 
     const CartPage(),
     ProfilePage(),

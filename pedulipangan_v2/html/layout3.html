@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery App - Layout 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Utility custom untuk menyembunyikan scrollbar tapi tetap bisa di-scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl font-sans pb-24">
+
+        <div class="sticky top-0 bg-white z-20 shadow-sm pb-2">
+            <div class="p-4 pb-2">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="bg-green-50 text-green-700 p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Lokasi kamu</p>
+                        <p class="text-sm font-bold text-gray-800 leading-none">Kampus Lidah Wetan ▾</p>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <input type="text" placeholder="Mau makan apa hari ini?" class="w-full bg-gray-100 rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <svg class="w-4 h-4 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+
+            <div class="flex overflow-x-auto gap-2 px-4 pb-2 no-scrollbar">
+                <button class="bg-green-600 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-md shadow-green-200">Terdekat</button>
+                <button class="bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap">Paling Laris</button>
+                <button class="bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap">Diskon 50%</button>
+                <button class="bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap">24 Jam</button>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="bg-yellow-500 rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer">
+                <div class="h-44 w-full overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Burger" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1">
+                        <span class="text-yellow-500">★</span> 4.8
+                    </div>
+                     <div class="absolute top-3 left-[70px] bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs text-gray-600 font-medium">
+                        🛵 15 min
+                    </div>
+                </div>
+                
+                <div class="p-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="font-bold text-lg leading-tight">Burger King Special</h2>
+                            <p class="text-xs text-yellow-100 mt-1">Western • Fast Food</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 flex justify-between items-center bg-white/20 backdrop-blur-md p-2 rounded-lg border border-white/30">
+                        <div class="flex items-center gap-2">
+                            <span class="text-yellow-900 font-bold text-lg">50%</span>
+                            <span class="text-[10px] text-yellow-100 uppercase font-bold tracking-wider">Surplus<br>Promo</span>
+                        </div>
+                        <div class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-mono font-bold">
+                            ⏱ 02:15:00
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 mb-6">
+            <div class="grid grid-cols-4 gap-y-4 gap-x-2">
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center text-2xl overflow-hidden border border-orange-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Burger</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-2xl overflow-hidden border border-blue-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2515/2515263.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Minuman</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center text-2xl overflow-hidden border border-yellow-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3081/3081096.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Bakmie</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-2xl overflow-hidden border border-red-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2674/2674066.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Pedas</span>
+                </div>
+                 <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-2xl overflow-hidden border border-green-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2912/2912293.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Sehat</span>
+                </div>
+                 <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center text-2xl overflow-hidden border border-pink-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2555/2555339.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Sweets</span>
+                </div>
+                 <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center text-2xl overflow-hidden border border-purple-50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3225/3225081.png" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Snack</span>
+                </div>
+                 <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center text-2xl overflow-hidden border border-gray-50">
+                        <span class="text-gray-500 font-bold text-xs">More</span>
+                    </div>
+                    <span class="text-xs font-medium text-gray-700">Lainnya</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6 border-t border-gray-100 pt-4">
+            <div class="flex justify-between items-end px-4 mb-3">
+                <h2 class="font-bold text-lg text-gray-800">Paket Hemat Kenyang</h2>
+                <a href="#" class="text-xs font-bold text-green-600">Lihat Semua</a>
+            </div>
+            
+            <div class="flex overflow-x-auto gap-4 px-4 pb-4 no-scrollbar">
+                
+                <div class="min-w-[150px] w-[150px] group cursor-pointer">
+                    <div class="h-40 rounded-xl bg-gray-200 overflow-hidden relative mb-2 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute bottom-2 left-2 bg-white px-1.5 py-0.5 rounded text-[10px] font-bold shadow">⭐ 4.8</div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 truncate">Paket Pizza Party</h3>
+                    <p class="text-xs text-gray-500 mb-1">Pizza Hut</p>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-sm">Rp 85rb</span>
+                        <span class="text-[10px] text-gray-400 line-through">120rb</span>
+                    </div>
+                </div>
+
+                <div class="min-w-[150px] w-[150px] group cursor-pointer">
+                    <div class="h-40 rounded-xl bg-gray-200 overflow-hidden relative mb-2 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute bottom-2 left-2 bg-white px-1.5 py-0.5 rounded text-[10px] font-bold shadow">⭐ 4.6</div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 truncate">Paket Ayam Crispy</h3>
+                    <p class="text-xs text-gray-500 mb-1">KFC Wiyung</p>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-sm">Rp 45rb</span>
+                        <span class="text-[10px] text-gray-400 line-through">60rb</span>
+                    </div>
+                </div>
+
+                <div class="min-w-[150px] w-[150px] group cursor-pointer">
+                    <div class="h-40 rounded-xl bg-gray-200 overflow-hidden relative mb-2 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        <div class="absolute bottom-2 left-2 bg-white px-1.5 py-0.5 rounded text-[10px] font-bold shadow">⭐ 4.9</div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-900 truncate">Pasta Carbonara</h3>
+                    <p class="text-xs text-gray-500 mb-1">Nanny's Pavillon</p>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-sm">Rp 55rb</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="px-4 pb-4">
+            <h2 class="font-bold text-lg text-gray-800 mb-4">Rekomendasi Sekitar</h2>
+            
+            <div class="flex flex-col gap-4">
+                
+                <div class="flex gap-3 bg-white p-3 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-gray-100 cursor-pointer">
+                    <div class="w-24 h-24 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1626804475297-411f7c8f4978?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-lg">
+                        <div class="absolute bottom-1 right-1 bg-white px-1.5 rounded text-[10px] font-bold shadow">⭐ 4.5</div>
+                    </div>
+                    <div class="flex flex-col justify-between flex-1 py-0.5">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-gray-900 line-clamp-1 text-sm">Raja Geprek Arjuna</h3>
+                                <span class="text-[10px] text-gray-400 border border-gray-200 px-1 rounded">Ad</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500 mt-1">Aneka Nasi, Ayam & Bebek</p>
+                            <div class="flex items-center gap-2 mt-1 text-[11px] text-gray-500">
+                                <span>🛵 20-30 min</span>
+                                <span>•</span>
+                                <span>Ongkir 18.3rb</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                             <div class="flex items-center gap-1 bg-red-50 px-1.5 py-0.5 rounded text-[10px] text-red-600 font-bold border border-red-100">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                                Diskon 45%
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 bg-white p-3 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-gray-100 cursor-pointer">
+                    <div class="w-24 h-24 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1619881589316-56c7f9e6b587?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-lg">
+                        <div class="absolute bottom-1 right-1 bg-white px-1.5 rounded text-[10px] font-bold shadow">⭐ 4.9</div>
+                    </div>
+                    <div class="flex flex-col justify-between flex-1 py-0.5">
+                        <div>
+                             <p class="text-[10px] text-orange-600 font-bold mb-0.5">⏰ Tutup dalam 13 min</p>
+                            <h3 class="font-bold text-gray-900 line-clamp-1 text-sm">Moon Chicken (Hangry)</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Korean Fried Chicken</p>
+                            <div class="flex items-center gap-2 mt-1 text-[11px] text-gray-500">
+                                <span>🛵 30-40 min</span>
+                                <span>•</span>
+                                <span>Ongkir 12rb</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                             <div class="flex items-center gap-1 bg-red-50 px-1.5 py-0.5 rounded text-[10px] text-red-600 font-bold border border-red-100">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                                Diskon 44%
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="flex gap-3 bg-white p-3 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-gray-100 cursor-pointer">
+                    <div class="w-24 h-24 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-lg">
+                        <div class="absolute bottom-1 right-1 bg-white px-1.5 rounded text-[10px] font-bold shadow">⭐ 4.7</div>
+                    </div>
+                    <div class="flex flex-col justify-between flex-1 py-0.5">
+                        <div>
+                            <h3 class="font-bold text-gray-900 line-clamp-1 text-sm">McDonald's Wiyung</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Cepat Saji, Burger, Sweets</p>
+                            <div class="flex items-center gap-2 mt-1 text-[11px] text-gray-500">
+                                <span>🛵 15-20 min</span>
+                                <span>•</span>
+                                <span>Ongkir 8rb</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                             <div class="flex items-center gap-1 bg-blue-50 px-1.5 py-0.5 rounded text-[10px] text-blue-600 font-bold border border-blue-100">
+                                🚚 Diskon Ongkir 11rb
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 px-6 py-3 flex justify-between z-30">
+        <div class="flex flex-col items-center gap-1 text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+            <span class="text-[10px] font-bold">Beranda</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+            <span class="text-[10px] font-medium">Pesanan</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+            <span class="text-[10px] font-medium">Favorit</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            <span class="text-[10px] font-medium">Profil</span>
+        </div>
+    </div>
+
+</body>
+</html>

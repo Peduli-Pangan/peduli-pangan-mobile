@@ -1,0 +1,5 @@
+- nambahin menu seperti di gofood langsung list banyak
+- homepage ndang diselesaikan
+- hubungin ke model
+- nambahin data gambar, dkk
+- janlup navbar ditengah
