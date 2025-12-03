@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/home_page_v3.dart';
 import 'package:pedulipangan_v2/pages/main_wrapper.dart';
+import 'package:pedulipangan_v2/pages/transaksi-pages/transaksi_pickup_page.dart';
 import 'dart:ui';
 import 'package:pedulipangan_v2/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:pedulipangan_v2/models/category_model.dart';
 import 'package:pedulipangan_v2/models/product_model.dart';
 import 'package:pedulipangan_v2/pages/components-card/test-card.dart';
+import 'package:pedulipangan_v2/services/mock_auth_service.dart';
+import 'package:pedulipangan_v2/pages/login_page.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -37,16 +40,36 @@ class MyApp extends StatelessWidget {
       // Routing dimulai dari MainWrapper
       // home: const TestCardPage(),
       // home: const ListMakananPage(),
-      home: const MainWrapper(),
+      // home: const ListMakananPage(),
+
+      // login
+      // home: FutureBuilder<bool>(
+      //   future: MockAuthService().checkLoginStatus(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Scaffold(
+      //         body: Center(child: CircularProgressIndicator()),
+      //       );
+      //     }
+      //     if (snapshot.data == true) {
+      //       return const MainWrapper();
+      //     } else {
+      //       return const LoginPage();
+      //     }
+      //   },
+      // ),
+
+    home: TransaksiPickupPage(),
+      
+      // home: const TransaksiPickupPage(),
+      // home: const TransaksiPickupPage(),
       // home: const HomePageV2(),
       // home: const HomePageV3(),
 
       // bisa
       // home: const AppHeader(),
 
-
-
-// bisa
+      // bisa
       // home: Scaffold(
       //   body: ListView(
       //     padding: const EdgeInsets.all(16.0),
@@ -129,8 +152,7 @@ class MyApp extends StatelessWidget {
       //   ),
       // ),
 
-
-// bisa
+      // bisa
       // home: CategoryGrid(
       //   categories: [
       //     CategoryModel(
