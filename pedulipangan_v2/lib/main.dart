@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:pedulipangan_v2/pages/main_wrapper.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/app_header.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/big_surplus_card.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/category_grid.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/coupon_card.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/filter_chips.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/floating_bottom_banner.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/home_page_v2.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/portrait_card.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/promo_slider.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/quick_access_icons.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/section_header.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/sticky_search_bar.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/surplus_card.dart';
-import 'package:pedulipangan_v2/pages/pages-flutter/top_ad_banner.dart';
+import 'dart:ui';
 import 'package:pedulipangan_v2/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:pedulipangan_v2/models/category_model.dart';
-import 'package:pedulipangan_v2/models/product_model.dart';
+import 'package:pedulipangan_v2/pages/pages-flutter/home_page_v2.dart';
+// import 'package:pedulipangan_v2/pages/main_wrapper.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/app_header.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/big_surplus_card.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/category_grid.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/coupon_card.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/filter_chips.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/floating_bottom_banner.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/portrait_card.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/promo_slider.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/quick_access_icons.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/section_header.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/sticky_search_bar.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/surplus_card.dart';
+// import 'package:pedulipangan_v2/pages/pages-flutter/top_ad_banner.dart';
+// import 'package:pedulipangan_v2/models/category_model.dart';
+// import 'package:pedulipangan_v2/models/product_model.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         // Kita gunakan font default dulu, nanti bisa diganti Google Fonts (Poppins)
         fontFamily: 'Inter',
       ),
+      scrollBehavior: MyCustomScrollBehavior(),
 
       // Routing dimulai dari MainWrapper
       // home: const MainWrapper(),
@@ -51,9 +53,7 @@ class MyApp extends StatelessWidget {
       // bisa
       // home: const AppHeader(),
 
-
-
-// bisa
+      // bisa
       // home: Scaffold(
       //   body: ListView(
       //     padding: const EdgeInsets.all(16.0),
@@ -136,8 +136,7 @@ class MyApp extends StatelessWidget {
       //   ),
       // ),
 
-
-// bisa
+      // bisa
       // home: CategoryGrid(
       //   categories: [
       //     CategoryModel(
@@ -363,4 +362,12 @@ class MyApp extends StatelessWidget {
       // home: const TopAdBanner()
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
