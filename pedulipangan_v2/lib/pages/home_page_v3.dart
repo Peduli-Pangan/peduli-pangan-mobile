@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/menu.dart';
 import 'package:pedulipangan_v2/pages/catering_menu.dart';
 import 'package:pedulipangan_v2/pages/product_detail_page.dart';
-import 'package:pedulipangan_v2/pages/surplus.dart';
 
 class HomePageV3 extends StatefulWidget {
   const HomePageV3({super.key});
@@ -145,9 +144,14 @@ class _HomePageV3State extends State<HomePageV3> {
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
-                              prefixIcon: Icon(Icons.search, color: Colors.grey),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 12),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
                             ),
                           ),
                         ),
@@ -280,162 +284,181 @@ class _HomePageV3State extends State<HomePageV3> {
                 ),
                 child: GestureDetector(
                   onTap: () {
+                    final dummyMeal = OrderableMealModel(
+                      type: 'Featured',
+                      description: item['name']!,
+                      price: 50000.0, // Dummy price
+                      imageUrl: item['image'],
+                      restaurantName: item['name']!,
+                      restaurantAddress: 'Featured Location',
+                      restaurantLogoUrl: '',
+                      pickupTime: item['time']!,
+                      stock: 10,
+                      tags: [item['category']!, 'Featured'],
+                    );
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SurplusPage(),
+                        builder:
+                            (context) => ProductDetailPage(
+                              meal: dummyMeal,
+                              date: DateTime.now(),
+                            ),
                       ),
                     );
                   },
                   child: Column(
-                  children: [
-                    // Image Section
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(16),
-                          ),
-                          child: SizedBox(
-                            height: 176,
-                            width: double.infinity,
-                            child: Image.network(
-                              item['image']!,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 12,
-                          left: 12,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.star, color: color, size: 12),
-                                const SizedBox(width: 4),
-                                Text(
-                                  item['rating']!,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 12,
-                          left: 70,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              '🛵 ${item['time']}',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Info Section
-                    Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image Section
+                      Stack(
                         children: [
-                          Text(
-                            item['name']!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(16),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            item['category']!,
-                            style: TextStyle(fontSize: 12, color: color[100]),
-                          ),
-                          const SizedBox(height: 12),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                            child: SizedBox(
+                              height: 176,
+                              width: double.infinity,
+                              child: Image.network(
+                                item['image']!,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      item['discount']!,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: color[900],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'SURPLUS\nPROMO',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: color[100],
-                                        height: 1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: color[100],
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    '⏱ 02:15:00',
-                                    style: TextStyle(
+                          ),
+                          Positioned(
+                            top: 12,
+                            left: 12,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.star, color: color, size: 12),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    item['rating']!,
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: color[700],
-                                      fontFamily: 'monospace',
                                     ),
                                   ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 12,
+                            left: 70,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                '🛵 ${item['time']}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      // Info Section
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['name']!,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              item['category']!,
+                              style: TextStyle(fontSize: 12, color: color[100]),
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        item['discount']!,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: color[900],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'SURPLUS\nPROMO',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: color[100],
+                                          height: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: color[100],
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      '⏱ 02:15:00',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: color[700],
+                                        fontFamily: 'monospace',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -506,7 +529,9 @@ class _HomePageV3State extends State<HomePageV3> {
                 decoration: BoxDecoration(
                   color: (cat['color'] as MaterialColor)[100],
                   shape: BoxShape.circle,
-                  border: Border.all(color: (cat['color'] as MaterialColor)[50]!),
+                  border: Border.all(
+                    color: (cat['color'] as MaterialColor)[50]!,
+                  ),
                 ),
                 child: Icon(
                   cat['icon'] as IconData,
@@ -545,9 +570,7 @@ class _HomePageV3State extends State<HomePageV3> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => const CateringMenuPage(),
-              ),
+              MaterialPageRoute(builder: (context) => const CateringMenuPage()),
             );
           },
           child: Text(
@@ -601,95 +624,126 @@ class _HomePageV3State extends State<HomePageV3> {
         itemCount: packages.length,
         itemBuilder: (context, index) {
           final pkg = packages[index];
-          return Container(
-            width: 150,
-            margin: const EdgeInsets.only(right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        pkg['image']!,
-                        height: 160,
-                        width: 150,
-                        fit: BoxFit.cover,
+          return GestureDetector(
+            onTap: () {
+              final dummyMeal = OrderableMealModel(
+                type: 'Package',
+                description: pkg['title']!,
+                price:
+                    double.parse(
+                      pkg['price']!.replaceAll(RegExp(r'[^0-9]'), ''),
+                    ) *
+                    1000,
+                imageUrl: pkg['image'],
+                restaurantName: pkg['shop']!,
+                restaurantAddress: 'Package Location',
+                restaurantLogoUrl: '',
+                pickupTime: '10:00 - 21:00',
+                stock: 20,
+                tags: ['Package', 'Hemat'],
+              );
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => ProductDetailPage(
+                        meal: dummyMeal,
+                        date: DateTime.now(),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      left: 8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
+                ),
+              );
+            },
+            child: Container(
+              width: 150,
+              margin: const EdgeInsets.only(right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          pkg['image']!,
+                          height: 160,
+                          width: 150,
+                          fit: BoxFit.cover,
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              size: 10,
-                              color: Colors.amber,
-                            ),
-                            const SizedBox(width: 2),
-                            Text(
-                              pkg['rating']!,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                      ),
+                      Positioned(
+                        bottom: 8,
+                        left: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                size: 10,
+                                color: Colors.amber,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  pkg['title']!,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  pkg['shop']!,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      pkg['price']!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    if (pkg['oldPrice'] != null) ...[
-                      const SizedBox(width: 4),
-                      Text(
-                        pkg['oldPrice']!,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough,
+                              const SizedBox(width: 2),
+                              Text(
+                                pkg['rating']!,
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    pkg['title']!,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    pkg['shop']!,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        pkg['price']!,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      if (pkg['oldPrice'] != null) ...[
+                        const SizedBox(width: 4),
+                        Text(
+                          pkg['oldPrice']!,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -768,204 +822,206 @@ class _HomePageV3State extends State<HomePageV3> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProductDetailPage(
-                        meal: dummyMeal,
-                        date: DateTime.now(),
-                      ),
+                      builder:
+                          (context) => ProductDetailPage(
+                            meal: dummyMeal,
+                            date: DateTime.now(),
+                          ),
                     ),
                   );
                 },
                 child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          item['image']!,
-                          width: 96,
-                          height: 96,
-                          fit: BoxFit.cover,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Image
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            item['image']!,
+                            width: 96,
+                            height: 96,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 4,
-                        right: 4,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                        Positioned(
+                          bottom: 4,
+                          right: 4,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  size: 10,
+                                  color: Colors.amber,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  item['rating']!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                size: 10,
-                                color: Colors.amber,
-                              ),
-                              const SizedBox(width: 2),
-                              Text(
-                                item['rating']!,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 12),
+                    // Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (item['closed'] != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 2),
+                              child: Text(
+                                item['closed']!,
                                 style: const TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  item['name']!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[200]!),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Text(
+                                  'Ad',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 12),
-                  // Content
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (item['closed'] != null)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: Text(
-                              item['closed']!,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.orange,
-                              ),
-                            ),
-                          ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                item['name']!,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[200]!),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: const Text(
-                                'Ad',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item['desc']!,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.motorcycle,
-                              size: 12,
+                          const SizedBox(height: 4),
+                          Text(
+                            item['desc']!,
+                            style: const TextStyle(
+                              fontSize: 11,
                               color: Colors.grey,
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              item['time']!,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              '•',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              item['delivery']!,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
                           ),
-                          decoration: BoxDecoration(
-                            color:
-                                item['promo']!.contains('Ongkir')
-                                    ? Colors.blue[50]
-                                    : Colors.red[50],
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color:
-                                  item['promo']!.contains('Ongkir')
-                                      ? Colors.blue[100]!
-                                      : Colors.red[100]!,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
+                          const SizedBox(height: 4),
+                          Row(
                             children: [
-                              Icon(
-                                Icons.local_offer,
+                              const Icon(
+                                Icons.motorcycle,
                                 size: 12,
-                                color:
-                                    item['promo']!.contains('Ongkir')
-                                        ? Colors.blue[600]
-                                        : Colors.red[600],
+                                color: Colors.grey,
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                item['promo']!,
+                                item['time']!,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                '•',
                                 style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                item['delivery']!,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  item['promo']!.contains('Ongkir')
+                                      ? Colors.blue[50]
+                                      : Colors.red[50],
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color:
+                                    item['promo']!.contains('Ongkir')
+                                        ? Colors.blue[100]!
+                                        : Colors.red[100]!,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.local_offer,
+                                  size: 12,
                                   color:
                                       item['promo']!.contains('Ongkir')
                                           ? Colors.blue[600]
                                           : Colors.red[600],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 4),
+                                Text(
+                                  item['promo']!,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        item['promo']!.contains('Ongkir')
+                                            ? Colors.blue[600]
+                                            : Colors.red[600],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }).toList(),
