@@ -18,8 +18,8 @@ class _MainWrapperState extends State<MainWrapper> {
 
   // Daftar Halaman yang akan ditampilkan sesuai menu
   final List<Widget> _pages = [
-    // const HomePage(),      // Halaman Home (Sesuai Desain)
-    const HomePageV2(),      // Halaman Home (Sesuai Desain)
+    const HomePage(),      // Halaman Home (Sesuai Desain)
+    // const HomePageV2(),      // Halaman Home (Sesuai Desain)
     const CateringPage(), 
     const CartPage(),
     ProfilePage(),

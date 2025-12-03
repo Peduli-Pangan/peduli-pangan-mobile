@@ -473,7 +473,7 @@ class _StickySearchBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 70; // Height of search bar container
+  double get maxExtent => 150; // Height of search bar container
 
   @override
   double get minExtent => 70;
