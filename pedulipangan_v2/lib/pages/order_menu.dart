@@ -793,7 +793,7 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
   }
 
   // --- Helper: Menu Item Card (Step 1) ---
-  Widget _buildMenuItemCard(OrderableMeal? meal, int mealIndex) {
+  Widget _buildMenuItemCard(OrderableMealModel? meal, int mealIndex) {
     if (meal == null) return const SizedBox.shrink();
     bool isSelected = meal.isSelected;
 

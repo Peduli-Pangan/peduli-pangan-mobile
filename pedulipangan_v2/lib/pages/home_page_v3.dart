@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../models/menu.dart';
+import 'package:pedulipangan_v2/pages/catering_menu.dart';
+import 'package:pedulipangan_v2/pages/product_detail_page.dart';
+import 'package:pedulipangan_v2/pages/surplus.dart';
 
 class HomePageV3 extends StatefulWidget {
   const HomePageV3({super.key});
@@ -8,6 +12,41 @@ class HomePageV3 extends StatefulWidget {
 }
 
 class _HomePageV3State extends State<HomePageV3> {
+  int _currentFeaturedIndex = 0;
+
+  final List<Map<String, dynamic>> _featuredItems = [
+    {
+      'name': 'Burger King Special',
+      'category': 'Western • Fast Food',
+      'rating': '4.8',
+      'time': '15 min',
+      'discount': '50%',
+      'image':
+          'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
+      'color': Colors.amber,
+    },
+    {
+      'name': 'Pizza Hut Deluxe',
+      'category': 'Italian • Pizza',
+      'rating': '4.7',
+      'time': '20 min',
+      'discount': '40%',
+      'image':
+          'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80',
+      'color': Colors.red,
+    },
+    {
+      'name': 'Starbucks Coffee',
+      'category': 'Beverage • Coffee',
+      'rating': '4.9',
+      'time': '10 min',
+      'discount': '30%',
+      'image':
+          'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
+      'color': Colors.green,
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,21 +123,32 @@ class _HomePageV3State extends State<HomePageV3> {
                     // Search Bar
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Mau makan apa hari ini?',
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CateringMenuPage(),
                             ),
-                            prefixIcon: Icon(Icons.search, color: Colors.grey),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(vertical: 12),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const TextField(
+                            enabled: false, // Disable typing, treat as button
+                            decoration: InputDecoration(
+                              hintText: 'Mau makan apa hari ini?',
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                              prefixIcon: Icon(Icons.search, color: Colors.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(vertical: 12),
+                            ),
                           ),
                         ),
                       ),
@@ -166,7 +216,6 @@ class _HomePageV3State extends State<HomePageV3> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
@@ -202,166 +251,215 @@ class _HomePageV3State extends State<HomePageV3> {
   }
 
   Widget _buildFeaturedItem() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.amber[500],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Image Section
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(16),
-                ),
-                child: SizedBox(
-                  height: 176,
-                  width: double.infinity,
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 12,
-                left: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber, size: 12),
-                      SizedBox(width: 4),
-                      Text(
-                        '4.8',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 12,
-                left: 70,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    '🛵 15 min',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black54,
+    return Column(
+      children: [
+        SizedBox(
+          height: 320,
+          child: PageView.builder(
+            onPageChanged: (index) {
+              setState(() {
+                _currentFeaturedIndex = index;
+              });
+            },
+            itemCount: _featuredItems.length,
+            itemBuilder: (context, index) {
+              final item = _featuredItems[index];
+              final color = item['color'] as MaterialColor;
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: color[500],
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          // Info Section
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Burger King Special',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Western • Fast Food',
-                  style: TextStyle(fontSize: 12, color: Colors.amber[100]),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.white.withOpacity(0.3)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            '50%',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.amber[900],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SurplusPage(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                  children: [
+                    // Image Section
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(16),
+                          ),
+                          child: SizedBox(
+                            height: 176,
+                            width: double.infinity,
+                            child: Image.network(
+                              item['image']!,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.star, color: color, size: 12),
+                                const SizedBox(width: 4),
+                                Text(
+                                  item['rating']!,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 70,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              '🛵 ${item['time']}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Info Section
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            'SURPLUS\nPROMO',
-                            style: TextStyle(
-                              fontSize: 10,
+                            item['name']!,
+                            style: const TextStyle(
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.amber[100],
-                              height: 1,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            item['category']!,
+                            style: TextStyle(fontSize: 12, color: color[100]),
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.3),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      item['discount']!,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: color[900],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'SURPLUS\nPROMO',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: color[100],
+                                        height: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: color[100],
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    '⏱ 02:15:00',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: color[700],
+                                      fontFamily: 'monospace',
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.amber[100],
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          '⏱ 02:15:00',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amber[700],
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 12),
+        // Indicators
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(_featuredItems.length, (index) {
+            final isActive = _currentFeaturedIndex == index;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              height: 8,
+              width: isActive ? 24 : 8,
+              decoration: BoxDecoration(
+                color: isActive ? Colors.green : Colors.grey[300],
+                borderRadius: BorderRadius.circular(4),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 
@@ -392,17 +490,28 @@ class _HomePageV3State extends State<HomePageV3> {
         final cat = categories[index];
         return Column(
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: (cat['color'] as MaterialColor)[100],
-                shape: BoxShape.circle,
-                border: Border.all(color: (cat['color'] as MaterialColor)[50]!),
-              ),
-              child: Icon(
-                cat['icon'] as IconData,
-                color: (cat['color'] as MaterialColor)[700],
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CateringMenuPage(),
+                  ),
+                );
+              },
+              borderRadius: BorderRadius.circular(28),
+              child: Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: (cat['color'] as MaterialColor)[100],
+                  shape: BoxShape.circle,
+                  border: Border.all(color: (cat['color'] as MaterialColor)[50]!),
+                ),
+                child: Icon(
+                  cat['icon'] as IconData,
+                  color: (cat['color'] as MaterialColor)[700],
+                ),
               ),
             ),
             const SizedBox(height: 4),
@@ -432,12 +541,22 @@ class _HomePageV3State extends State<HomePageV3> {
             color: Colors.black87,
           ),
         ),
-        Text(
-          action,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.green[600],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CateringMenuPage(),
+              ),
+            );
+          },
+          child: Text(
+            action,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Colors.green[600],
+            ),
           ),
         ),
       ],
@@ -630,7 +749,33 @@ class _HomePageV3State extends State<HomePageV3> {
                   ),
                 ],
               ),
-              child: Row(
+              child: GestureDetector(
+                onTap: () {
+                  // Create a dummy meal for demonstration
+                  final dummyMeal = OrderableMealModel(
+                    type: 'Recommended',
+                    description: item['desc']!,
+                    price: 25000.0,
+                    imageUrl: item['image'],
+                    restaurantName: item['name']!,
+                    restaurantAddress: 'Nearby Location',
+                    restaurantLogoUrl: '',
+                    pickupTime: item['time']!,
+                    stock: 10,
+                    tags: ['Recommended', 'Tasty'],
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailPage(
+                        meal: dummyMeal,
+                        date: DateTime.now(),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Image
@@ -824,43 +969,6 @@ class _HomePageV3State extends State<HomePageV3> {
               ),
             );
           }).toList(),
-    );
-  }
-
-  Widget _buildBottomNavBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey[200]!)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildNavItem(Icons.home, 'Beranda', isActive: true),
-          _buildNavItem(Icons.receipt_long, 'Pesanan'),
-          _buildNavItem(Icons.favorite_border, 'Favorit'),
-          _buildNavItem(Icons.person_outline, 'Profil'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, String label, {bool isActive = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: isActive ? Colors.green[600] : Colors.grey[400]),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-            color: isActive ? Colors.green[600] : Colors.grey[400],
-          ),
-        ),
-      ],
     );
   }
 }

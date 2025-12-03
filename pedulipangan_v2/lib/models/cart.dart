@@ -1,21 +1,17 @@
 import 'menu.dart';
 
 class CartItems {
-  final OrderableMeal meal;
+  final OrderableMealModel meal;
   final DateTime date;
   int quantity;
 
-  CartItems({
-    required this.meal,
-    required this.date,
-    this.quantity = 1,
-  });
+  CartItems({required this.meal, required this.date, this.quantity = 1});
 }
 
 class ShoppingCart {
   final List<CartItems> items = [];
 
-  void addItem(OrderableMeal meal, DateTime date) {
+  void addItem(OrderableMealModel meal, DateTime date) {
     bool found = false;
     for (var item in items) {
       if (item.meal == meal && item.date.isAtSameMomentAs(date)) {
@@ -36,6 +32,7 @@ class ShoppingCart {
       items.remove(item);
     }
   }
+
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
 }
 

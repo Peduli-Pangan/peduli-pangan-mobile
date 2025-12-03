@@ -17,22 +17,131 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
   final String _locationText = "Chosen location";
   final String _locationDetail = "within 5 mi";
 
-  Widget _buildAddToCartButton(OrderableMeal meal, DateTime date) {
-    return IconButton(
-      icon: Icon(Icons.add_shopping_cart, color: AppColors.primaryGreen),
-      onPressed: () {
-        // Tambahkan item ke keranjang global
-        globalCart.addItem(meal, date);
-
-        // Tampilkan feedback ke pengguna
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${meal.description} ditambahkan ke keranjang.'),
-            duration: const Duration(seconds: 1),
-            backgroundColor: AppColors.primaryGreen,
+  // --- Helper Widget: Kartu Menu Makanan ---
+  Widget _buildMealCard(OrderableMealModel meal, DateTime date) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(meal: meal, date: date),
           ),
         );
       },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gambar Makanan
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              child:
+                  meal.imageUrl != null && meal.imageUrl!.isNotEmpty
+                      ? Image.network(
+                        meal.imageUrl!,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/img/logo peduli-pangan-official.png',
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                      : Image.asset(
+                        'assets/img/logo peduli-pangan-official.png',
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          meal.type, // "Lunch" or "Dinner"
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          meal.description,
+                          style: const TextStyle(
+                            color: AppColors.textGrey,
+                            fontSize: 12,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Action Button (Add)
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        // Tambahkan item ke keranjang global
+                        globalCart.addItem(meal, date);
+
+                        // Tampilkan feedback ke pengguna
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${meal.description} ditambahkan ke keranjang.',
+                            ),
+                            duration: const Duration(seconds: 1),
+                            backgroundColor: AppColors.primaryGreen,
+                          ),
+                        );
+                      },
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(8),
+                      iconSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

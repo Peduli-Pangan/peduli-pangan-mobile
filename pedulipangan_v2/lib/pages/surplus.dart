@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/menu.dart';
+import 'package:pedulipangan_v2/pages/product_detail_page.dart';
 
 class SurplusItem {
   final String imageUrl;
@@ -162,108 +164,148 @@ class SurplusPage extends StatelessWidget {
                             (context, index) => const SizedBox(width: 12),
                         itemBuilder: (context, index) {
                           final item = items[index];
-                          return Container(
-                            width: 280,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
+                          return GestureDetector(
+                            onTap: () {
+                              // Create dummy meal from SurplusItem
+                              // Create dummy meal from SurplusItem
+                              final dummyMeal = OrderableMealModel(
+                                type: 'Surplus',
+                                description: item.description,
+                                price:
+                                    double.tryParse(
+                                      item.price.replaceAll('.', ''),
+                                    ) ??
+                                    0.0,
+                                imageUrl: item.imageUrl,
+                                restaurantName: item.title,
+                                restaurantAddress: 'Surplus Location',
+                                restaurantLogoUrl: '',
+                                pickupTime: item.distanceTime,
+                                stock: 5,
+                                tags: ['Surplus', 'Discount'],
+                              );
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => ProductDetailPage(
+                                        meal: dummyMeal,
+                                        date: DateTime.now(),
+                                      ),
                                 ),
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                // Image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    item.imageUrl,
-                                    width: 96,
-                                    height: 96,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        width: 96,
-                                        height: 96,
-                                        color: Colors.grey[300],
-                                        child: const Icon(
-                                          Icons.broken_image,
-                                          color: Colors.grey,
-                                        ),
-                                      );
-                                    },
+                              );
+                            },
+                            child: Container(
+                              width: 280,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
                                   ),
-                                ),
-                                const SizedBox(width: 12),
-                                // Content
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        item.distanceTime,
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        item.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF111827), // gray-900
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        item.description,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            item.price,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(
-                                                0xFFDC2626,
-                                              ), // red-600
-                                            ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  // Image
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.network(
+                                      item.imageUrl,
+                                      width: 96,
+                                      height: 96,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (
+                                        context,
+                                        error,
+                                        stackTrace,
+                                      ) {
+                                        return Container(
+                                          width: 96,
+                                          height: 96,
+                                          color: Colors.grey[300],
+                                          child: const Icon(
+                                            Icons.broken_image,
+                                            color: Colors.grey,
                                           ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            item.originalPrice,
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 12),
+                                  // Content
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          item.distanceTime,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          item.title,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(
+                                              0xFF111827,
+                                            ), // gray-900
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          item.description,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              item.price,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(
+                                                  0xFFDC2626,
+                                                ), // red-600
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              item.originalPrice,
+                                              style: const TextStyle(
+                                                fontSize: 10,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
