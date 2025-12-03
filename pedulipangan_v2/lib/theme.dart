@@ -7,3 +7,14 @@ class AppColors {
   static const Color textGrey = Color(0xFF757575);
   static const Color secondaryGreen = Color.fromARGB(255, 110, 189, 144);
 }
+
+final ThemeData appTheme = ThemeData(
+  primaryColor: AppColors.primaryGreen,
+  scaffoldBackgroundColor: AppColors.background,
+  fontFamily: 'Inter',
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: AppColors.primaryGreen,
+    primary: AppColors.primaryGreen,
+  ),
+  useMaterial3: true,
+);

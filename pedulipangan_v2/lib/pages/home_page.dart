@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/catering_menu.dart';
 
+
 import '../theme.dart';
 
 class HomePage extends StatelessWidget {
@@ -94,6 +95,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
+
 
               const Spacer(), // Penyeimbang bawah
             ],
