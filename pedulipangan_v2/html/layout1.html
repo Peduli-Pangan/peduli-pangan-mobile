@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="max-w-md mx-auto bg-gray-50 min-h-screen pb-20 font-sans">
+
+        <div class="sticky top-0 bg-white z-10 shadow-sm p-4">
+            <div class="bg-gray-100 rounded-full h-10 mb-3 px-4 flex items-center text-gray-400 text-sm">Mau makan apa
+                hari ini?</div>
+
+            <div class="flex overflow-x-auto gap-3 no-scrollbar pb-1">
+                <button
+                    class="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap">Terdekat</button>
+                <button
+                    class="border border-gray-200 bg-white text-gray-700 px-4 py-1.5 rounded-full text-sm whitespace-nowrap">Paling
+                    Laris</button>
+                <button
+                    class="border border-gray-200 bg-white text-gray-700 px-4 py-1.5 rounded-full text-sm whitespace-nowrap">Rating
+                    4.5+</button>
+                <button
+                    class="border border-gray-200 bg-white text-gray-700 px-4 py-1.5 rounded-full text-sm whitespace-nowrap">Promo</button>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="bg-yellow-500 rounded-xl overflow-hidden shadow-sm relative">
+                <div class="h-40 bg-gray-300 w-full relative">
+                    <span class="absolute top-2 left-2 bg-white px-2 py-1 rounded text-xs font-bold">⭐ 4.8</span>
+                </div>
+                <div class="p-3 bg-white">
+                    <h3 class="font-bold text-lg">Roti Bakar Special</h3>
+                    <p class="text-xs text-gray-500">Bakery • 2.5 km</p>
+                    <div class="mt-2 flex justify-between items-center bg-yellow-100 p-2 rounded-lg text-yellow-800">
+                        <span class="font-bold text-sm">⚡ Surplus 50%</span>
+                        <span class="text-xs">⏱ 02:00:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-2">
+            <div class="grid grid-cols-4 gap-4 text-center">
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-14 h-14 rounded-full bg-gray-200 overflow-hidden"></div> <span
+                        class="text-xs text-gray-700">Jajanan</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-14 h-14 rounded-full bg-gray-200 overflow-hidden"></div>
+                    <span class="text-xs text-gray-700">Sweets</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-14 h-14 rounded-full bg-gray-200 overflow-hidden"></div>
+                    <span class="text-xs text-gray-700">Martabak</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-14 h-14 rounded-full bg-gray-200 overflow-hidden"></div>
+                    <span class="text-xs text-gray-700">Minuman</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 pl-4">
+            <h2 class="font-bold text-lg mb-3">Paket Hemat Hari Ini</h2>
+            <div class="flex overflow-x-auto gap-4 pb-4 pr-4 no-scrollbar">
+
+                <div class="min-w-[140px] w-[140px]">
+                    <div class="h-40 rounded-xl bg-gray-200 overflow-hidden relative">
+                        <img src="..." class="w-full h-full object-cover">
+                        <span class="absolute bottom-2 left-2 bg-white px-1.5 rounded text-xs font-bold">⭐ 4.8</span>
+                    </div>
+                    <h4 class="font-semibold text-sm mt-2 truncate">Pizza Pepperoni</h4>
+                    <p class="text-xs text-gray-500">Pizza</p>
+                    <p class="font-bold text-sm mt-1">Rp 85.000</p>
+                </div>
+
+                <div class="min-w-[140px] w-[140px]">
+                    <div class="h-40 rounded-xl bg-gray-200 overflow-hidden relative"></div>
+                    <h4 class="font-semibold text-sm mt-2 truncate">Burger Beef</h4>
+                    <p class="text-xs text-gray-500">Burger</p>
+                    <p class="font-bold text-sm mt-1">Rp 45.000</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-4 px-4">
+            <h2 class="font-bold text-lg mb-3">Rekomendasi Sekitar</h2>
+            <div class="flex flex-col gap-4">
+
+                <div class="flex gap-3 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-24 h-24 bg-gray-200 rounded-lg flex-shrink-0"></div>
+                    <div class="flex flex-col justify-between flex-1">
+                        <div>
+                            <h3 class="font-bold text-gray-900 line-clamp-1">Raja Geprek Arjuna</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Aneka Nasi, Ayam • 20-30 min</p>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-xs bg-red-50 text-red-600 px-1 py-0.5 rounded border border-red-100">🏷
+                                Diskon 45%</span>
+                            <span class="text-xs text-gray-400 line-through">29.3rb</span>
+                            <span class="text-xs font-bold">18.3rb</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

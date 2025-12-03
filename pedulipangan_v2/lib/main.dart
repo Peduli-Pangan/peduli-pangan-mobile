@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedulipangan_v2/pages/main_wrapper.dart';
 import 'dart:ui';
 import 'package:pedulipangan_v2/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,9 +34,9 @@ class MyApp extends StatelessWidget {
       scrollBehavior: MyCustomScrollBehavior(),
 
       // Routing dimulai dari MainWrapper
-      home: const TestCardPage(),
+      // home: const TestCardPage(),
       // home: const ListMakananPage(),
-      // home: const MainWrapper(),
+      home: const MainWrapper(),
       // home: const HomePageV2(),
 
       // bisa
