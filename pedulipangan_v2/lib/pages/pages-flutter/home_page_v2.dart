@@ -61,7 +61,7 @@ class _HomePageV2State extends State<HomePageV2> {
             controller: _scrollController,
             slivers: [
               // 1. Top Ad Banner (Not pinned, scrolls away)
-              const SliverToBoxAdapter(child: TopAdBanner()),
+              // const SliverToBoxAdapter(child: TopAdBanner()),
 
               // 2. Sticky Search Bar
               SliverPersistentHeader(
@@ -77,6 +77,7 @@ class _HomePageV2State extends State<HomePageV2> {
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(
+                      top: 24,
                       bottom: 100,
                     ), // Space for floating banner
                     child: Column(
@@ -210,6 +211,26 @@ class _HomePageV2State extends State<HomePageV2> {
                                   stock: 25,
                                   condition: 'good',
                                   shortDesc: 'Korea, Ayam',
+                                  longDesc: 'Ayam goreng ala Korea',
+                                  rating: 4.8,
+                                  isActive: true,
+                                  merchantId: 5,
+                                  categoryId: 5,
+                                  tag: 'Korea, Ayam',
+                                ),
+                                imageUrl:
+                                    'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=400&auto=format&fit=crop',
+                              ),
+                              PortraitCard(
+                                product: ProductModel(
+                                  id: 6,
+                                  createdAt: DateTime.now(),
+                                  nama: 'Moon tek',
+                                  slug: 'moon-tek',
+                                  harga: 45000,
+                                  stock: 25,
+                                  condition: 'goodes',
+                                  shortDesc: 'Koreaaa, Ayammuh',
                                   longDesc: 'Ayam goreng ala Korea',
                                   rating: 4.8,
                                   isActive: true,
@@ -452,7 +473,7 @@ class _StickySearchBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 70; // Height of search bar container
+  double get maxExtent => 150; // Height of search bar container
 
   @override
   double get minExtent => 70;
