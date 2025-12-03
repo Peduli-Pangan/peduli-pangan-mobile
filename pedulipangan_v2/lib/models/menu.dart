@@ -79,7 +79,7 @@ final List<DailyMenu> dummyMenuData = [
       description:
           "Ayam Bumbu Hitam Madura with Nasi Tutug Oncom + FREE Tempe Goreng Bawang",
       imageUrl:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1626082927389-e1c7190eeaf0?auto=format&fit=crop&w=800&q=80",
       price: 25000.0,
       restaurantName: "Dapur Bu Dewi",
       restaurantAddress: "Jl. Kebon Jeruk No. 12, Jakarta Barat",

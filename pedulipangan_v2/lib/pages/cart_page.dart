@@ -75,13 +75,42 @@ class _CartPageState extends State<CartPage> {
         child: Row(
           children: [
             // Gambar Menu
-            if (item.meal.imageUrl != null)
-              Image.asset(
-                item.meal.imageUrl!,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
+            if (item.meal.imageUrl != null && item.meal.imageUrl!.isNotEmpty)
+              item.meal.imageUrl!.startsWith('http')
+                  ? Image.network(
+                    item.meal.imageUrl!,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 60,
+                        height: 60,
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  )
+                  : Image.asset(
+                    item.meal.imageUrl!,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 60,
+                        height: 60,
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
             const SizedBox(width: 16),
             // Detail Item
             Expanded(

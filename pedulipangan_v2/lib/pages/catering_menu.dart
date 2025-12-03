@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/menu.dart'; // Import model data dummy
 import 'product_detail_page.dart';
+import '../models/product.dart';
+import '../models/restaurant.dart';
 
 class CateringMenuPage extends StatefulWidget {
   const CateringMenuPage({super.key});
@@ -22,10 +24,39 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
   Widget _buildMealCard(OrderableMealModel meal, DateTime date) {
     return GestureDetector(
       onTap: () {
+        // Create a dummy Restaurant object based on meal data
+        final restaurant = Restaurant(
+          name: meal.restaurantName,
+          address: meal.restaurantAddress,
+          rating: 4.5, // Default rating
+          imageUrl: meal.restaurantLogoUrl,
+          latitude: 0.0,
+          longitude: 0.0,
+        );
+
+        // Parse pickup time
+        final times = meal.pickupTime.split(' - ');
+        final start = times.isNotEmpty ? times[0] : "00:00";
+        final end = times.length > 1 ? times[1] : "23:59";
+
+        // Create Product object
+        final product = Product(
+          name: meal.description,
+          imageUrl: meal.imageUrl ?? "",
+          price: meal.price,
+          quantityLeft: meal.stock,
+          pickupTimeStart: start,
+          pickupTimeEnd: end,
+          distance: 1.5, // Default distance
+          restaurant: restaurant,
+          description: meal.description,
+          isSurplus: true,
+        );
+
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailPage(meal: meal, date: date),
+            builder: (context) => ProductDetailPage(product: product),
           ),
         );
       },
