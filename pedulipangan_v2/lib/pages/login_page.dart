@@ -2,6 +2,7 @@ import 'main_wrapper.dart';
 import 'register_page.dart';
 import 'forgot_password_page.dart';
 import '../theme.dart';
+import 'package:pedulipangan_v2/services/mock_auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,22 +31,30 @@ class _LoginPageState extends State<LoginPage> {
       // Contoh validasi sederhana (ganti dengan API call asli)
       if (_emailController.text == "test@example.com" &&
           _passwordController.text == "password123") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login Berhasil!')),
-        );
+        // Simpan status login
+        await MockAuthService().login();
+
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Login Berhasil!')));
         // Navigasi ke halaman utama (MainWrapper)
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const MainWrapper()),
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Email atau password salah.')),
         );
       }
 
-      setState(() {
-        _isLoading = false; // Sembunyikan loading
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false; // Sembunyikan loading
+        });
+      }
     }
   }
 
@@ -86,10 +95,14 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 // --- Ilustrasi Atas ---
                 Center(
-                  child: Image.asset(
-                    'assets/img/login-page-image.png', // Ganti dengan path aset Anda
-                    height: 200, // Sesuaikan tinggi
-                    fit: BoxFit.contain,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Image.asset(
+                      'assets/img/logo-only-peduli-pangan-official2.png', // Ganti dengan path aset Anda
+                      height: 70, // Sesuaikan tinggi
+                      fit: BoxFit.contain,
+                      filterQuality: FilterQuality.high,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -118,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
+                      vertical: 16,
+                      horizontal: 20,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -145,7 +160,9 @@ class _LoginPageState extends State<LoginPage> {
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
+                      vertical: 16,
+                      horizontal: 20,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -167,7 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordPage()),
+                          builder: (context) => const ForgotPasswordPage(),
+                        ),
                       );
                     },
                     child: Text(
@@ -186,7 +204,10 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: _isLoading ? null : _handleLogin, // Disable saat loading
+                    onPressed:
+                        _isLoading
+                            ? null
+                            : _handleLogin, // Disable saat loading
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryGreen,
                       foregroundColor: Colors.white,
@@ -194,18 +215,19 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          )
-                        : const Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    child:
+                        _isLoading
+                            ? const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            )
+                            : const Text(
+                              "Login",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -223,7 +245,8 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterPage()),
+                            builder: (context) => const RegisterPage(),
+                          ),
                         );
                       },
                       child: Text(
@@ -242,10 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   children: [
                     Expanded(
-                      child: Divider(
-                        color: Colors.grey[400],
-                        thickness: 1,
-                      ),
+                      child: Divider(color: Colors.grey[400], thickness: 1),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -255,10 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Expanded(
-                      child: Divider(
-                        color: Colors.grey[400],
-                        thickness: 1,
-                      ),
+                      child: Divider(color: Colors.grey[400], thickness: 1),
                     ),
                   ],
                 ),
@@ -267,7 +284,10 @@ class _LoginPageState extends State<LoginPage> {
                 // --- Google OAuth Button ---
                 Center(
                   child: GestureDetector(
-                    onTap: _isLoading ? null : _handleGoogleSignIn, // Disable saat loading
+                    onTap:
+                        _isLoading
+                            ? null
+                            : _handleGoogleSignIn, // Disable saat loading
                     child: Container(
                       width: 60, // Sesuaikan ukuran ikon Google
                       height: 60,
@@ -284,16 +304,17 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       child: Center(
-                        child: _isLoading 
-                          ? const CircularProgressIndicator(
-                              color: AppColors.primaryGreen, 
-                              strokeWidth: 2,
-                            )
-                          : Image.asset(
-                              'assets/img/google-logo.png',
-                              width: 30,
-                              height: 30,
-                            ),
+                        child:
+                            _isLoading
+                                ? const CircularProgressIndicator(
+                                  color: AppColors.primaryGreen,
+                                  strokeWidth: 2,
+                                )
+                                : Image.asset(
+                                  'assets/img/google-logo.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
                       ),
                     ),
                   ),

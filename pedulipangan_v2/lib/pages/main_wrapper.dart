@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/cart_page.dart';
 import 'package:pedulipangan_v2/pages/catering_page.dart';
-import 'package:pedulipangan_v2/pages/home_page.dart';
+
+import 'package:pedulipangan_v2/pages/home_page_v3.dart';
+import 'package:pedulipangan_v2/pages/pages-flutter/home_page_v2.dart';
 import 'package:pedulipangan_v2/pages/profile_page.dart';
 import 'package:pedulipangan_v2/theme.dart';
 
@@ -17,8 +19,9 @@ class _MainWrapperState extends State<MainWrapper> {
 
   // Daftar Halaman yang akan ditampilkan sesuai menu
   final List<Widget> _pages = [
-    const HomePage(),      // Halaman Home (Sesuai Desain)
-    const CateringPage(), 
+    const HomePageV3(), // Halaman Home (Sesuai Desain)
+    // const HomePageV2(),      // Halaman Home (Sesuai Desain)
+    const CateringPage(),
     const CartPage(),
     ProfilePage(),
   ];
@@ -28,7 +31,7 @@ class _MainWrapperState extends State<MainWrapper> {
     return Scaffold(
       // Body akan berganti sesuai index yang dipilih
       body: _pages[_currentIndex],
-      
+
       // Bagian Bottom Navigation Bar
       bottomNavigationBar: Container(
         // Memberikan shadow sedikit agar terlihat elegan di atas background putih
@@ -43,10 +46,14 @@ class _MainWrapperState extends State<MainWrapper> {
         ),
         child: BottomNavigationBar(
           backgroundColor: AppColors.primaryGreen, // Latar hijau penuh
-          type: BottomNavigationBarType.fixed, // Wajib fixed agar warna bg muncul jika item > 3
+          type:
+              BottomNavigationBarType
+                  .fixed, // Wajib fixed agar warna bg muncul jika item > 3
           currentIndex: _currentIndex,
           selectedItemColor: Colors.white, // Ikon aktif warna putih
-          unselectedItemColor: Colors.white.withOpacity(0.6), // Ikon tidak aktif agak transparan
+          unselectedItemColor: Colors.white.withOpacity(
+            0.6,
+          ), // Ikon tidak aktif agak transparan
           selectedFontSize: 12,
           unselectedFontSize: 12,
           onTap: (index) {

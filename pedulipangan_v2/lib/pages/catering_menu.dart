@@ -2,6 +2,9 @@ import '../models/cart.dart';
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/menu.dart'; // Import model data dummy
+import 'product_detail_page.dart';
+import '../models/product.dart';
+import '../models/restaurant.dart';
 
 class CateringMenuPage extends StatefulWidget {
   const CateringMenuPage({super.key});
@@ -17,22 +20,160 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
   final String _locationText = "Chosen location";
   final String _locationDetail = "within 5 mi";
 
-  Widget _buildAddToCartButton(OrderableMeal meal, DateTime date) {
-    return IconButton(
-      icon: Icon(Icons.add_shopping_cart, color: AppColors.primaryGreen),
-      onPressed: () {
-        // Tambahkan item ke keranjang global
-        globalCart.addItem(meal, date);
+  // --- Helper Widget: Kartu Menu Makanan ---
+  Widget _buildMealCard(OrderableMealModel meal, DateTime date) {
+    return GestureDetector(
+      onTap: () {
+        // Create a dummy Restaurant object based on meal data
+        final restaurant = Restaurant(
+          name: meal.restaurantName,
+          address: meal.restaurantAddress,
+          rating: 4.5, // Default rating
+          imageUrl: meal.restaurantLogoUrl,
+          latitude: 0.0,
+          longitude: 0.0,
+        );
 
-        // Tampilkan feedback ke pengguna
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${meal.description} ditambahkan ke keranjang.'),
-            duration: const Duration(seconds: 1),
-            backgroundColor: AppColors.primaryGreen,
+        // Parse pickup time
+        final times = meal.pickupTime.split(' - ');
+        final start = times.isNotEmpty ? times[0] : "00:00";
+        final end = times.length > 1 ? times[1] : "23:59";
+
+        // Create Product object
+        final product = Product(
+          name: meal.description,
+          imageUrl: meal.imageUrl ?? "",
+          price: meal.price,
+          quantityLeft: meal.stock,
+          pickupTimeStart: start,
+          pickupTimeEnd: end,
+          distance: 1.5, // Default distance
+          restaurant: restaurant,
+          description: meal.description,
+          isSurplus: true,
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(product: product),
           ),
         );
       },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gambar Makanan
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              child:
+                  meal.imageUrl != null && meal.imageUrl!.isNotEmpty
+                      ? Image.network(
+                        meal.imageUrl!,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/img/logo peduli-pangan-official.png',
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                      : Image.asset(
+                        'assets/img/logo peduli-pangan-official.png',
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          meal.type, // "Lunch" or "Dinner"
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          meal.description,
+                          style: const TextStyle(
+                            color: AppColors.textGrey,
+                            fontSize: 12,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Action Button (Add)
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        // Tambahkan item ke keranjang global
+                        globalCart.addItem(meal, date);
+
+                        // Tampilkan feedback ke pengguna
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${meal.description} ditambahkan ke keranjang.',
+                            ),
+                            duration: const Duration(seconds: 1),
+                            backgroundColor: AppColors.primaryGreen,
+                          ),
+                        );
+                      },
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(8),
+                      iconSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -64,73 +205,11 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
 
           // Menu Lunch
           if (menu.lunchOption != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Lunch :",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      _buildAddToCartButton(menu.lunchOption!, menu.date),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    menu.lunchOption!.description,
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          const SizedBox(height: 15),
+            _buildMealCard(menu.lunchOption!, menu.date),
 
           // Menu Dinner
           if (menu.dinnerOption != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Dinner :",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      // Tombol Add to Cart
-                      _buildAddToCartButton(menu.dinnerOption!, menu.date),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    menu.dinnerOption!.description,
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildMealCard(menu.dinnerOption!, menu.date),
         ],
       ),
     );

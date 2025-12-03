@@ -793,7 +793,7 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
   }
 
   // --- Helper: Menu Item Card (Step 1) ---
-  Widget _buildMenuItemCard(OrderableMeal? meal, int mealIndex) {
+  Widget _buildMenuItemCard(OrderableMealModel? meal, int mealIndex) {
     if (meal == null) return const SizedBox.shrink();
     bool isSelected = meal.isSelected;
 
@@ -844,7 +844,52 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
                 activeColor: AppColors.primaryGreen,
               ),
             ),
-            Image.asset(meal.imageUrl!, height: 80, width: 80),
+            if (meal.imageUrl != null && meal.imageUrl!.isNotEmpty)
+              meal.imageUrl!.startsWith('http')
+                  ? Image.network(
+                    meal.imageUrl!,
+                    height: 80,
+                    width: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 80,
+                        width: 80,
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  )
+                  : Image.asset(
+                    meal.imageUrl!,
+                    height: 80,
+                    width: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 80,
+                        width: 80,
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  )
+            else
+              Container(
+                height: 80,
+                width: 80,
+                color: Colors.grey[300],
+                child: const Icon(
+                  Icons.image_not_supported,
+                  color: Colors.grey,
+                ),
+              ),
             Text(
               meal.type,
               style: const TextStyle(fontWeight: FontWeight.bold),
