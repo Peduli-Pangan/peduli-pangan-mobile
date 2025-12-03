@@ -2,6 +2,7 @@ import '../models/cart.dart';
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/menu.dart'; // Import model data dummy
+import 'product_detail_page.dart';
 
 class CateringMenuPage extends StatefulWidget {
   const CateringMenuPage({super.key});
@@ -173,73 +174,11 @@ class _CateringMenuPageState extends State<CateringMenuPage> {
 
           // Menu Lunch
           if (menu.lunchOption != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Lunch :",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      _buildAddToCartButton(menu.lunchOption!, menu.date),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    menu.lunchOption!.description,
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          const SizedBox(height: 15),
+            _buildMealCard(menu.lunchOption!, menu.date),
 
           // Menu Dinner
           if (menu.dinnerOption != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Dinner :",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      // Tombol Add to Cart
-                      _buildAddToCartButton(menu.dinnerOption!, menu.date),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    menu.dinnerOption!.description,
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildMealCard(menu.dinnerOption!, menu.date),
         ],
       ),
     );

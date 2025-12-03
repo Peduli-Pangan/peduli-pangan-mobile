@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedulipangan_v2/pages/catering_menu.dart';
+import 'package:pedulipangan_v2/pages/restaurant_detail_page.dart';
+import 'package:pedulipangan_v2/models/restaurant.dart';
 
 import '../theme.dart';
 
@@ -92,6 +94,25 @@ class HomePage extends StatelessWidget {
                           1.0, // Memberi jarak antar huruf agar tegas
                     ),
                   ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              
+              // --- TEMPORARY BUTTON FOR RESTAURANT DETAIL ---
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RestaurantDetailPage(restaurant: dummyRestaurant),
+                      ),
+                    );
+                  }, 
+                  child: const Text("Detail Resto (Dev)"),
                 ),
               ),
 

@@ -4,13 +4,20 @@ class OrderableMealModel {
   final String description;
   final String? imageUrl;
   final bool isSelected;
+  final double price;
+  final String restaurantName;
+  final String restaurantAddress;
+  final String restaurantLogoUrl;
+  final List<String> tags;
+  final String pickupTime;
+  final int stock;
 
   OrderableMealModel({
     required this.type,
     required this.description,
     this.imageUrl,
     this.isSelected = false,
-    this.price = 15000.0,
+    this.price = 15000,
     this.restaurantName = "Peduli Pangan Kitchen",
     this.restaurantAddress = "Jl. Peduli No. 1, Jakarta",
     this.restaurantLogoUrl = "https://via.placeholder.com/50",
@@ -25,6 +32,13 @@ class OrderableMealModel {
       description: description,
       imageUrl: imageUrl,
       isSelected: isSelected ?? this.isSelected,
+      price: price,
+      restaurantName: restaurantName,
+      restaurantAddress: restaurantAddress,
+      restaurantLogoUrl: restaurantLogoUrl,
+      tags: tags,
+      pickupTime: pickupTime,
+      stock: stock,
     );
   }
 }
